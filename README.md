@@ -1,295 +1,129 @@
+<div align="center">
+
 # MM-ContentGuard
 
-这是一个课程设计项目：系统模拟社交媒体/聊天发送界面，用户发送文本、图片或视频时，内容会先经过审核服务；审核通过才进入聊天记录，审核失败则在前端展示不通过原因。
+### Understand the content. Explain the risk. Review before sending.
 
-本仓库是最终单仓库版本，不需要再 clone 文本、图片或视频子仓库。
+A multimodal content moderation system for text, images, memes, and video in social-media messaging.
 
-> 项目初期我们基于课堂内容，实现了一个纯文本版本（仅使用传统机器学习方法，未使用BERT等深度学习方法），见 [text-detection-project](https://github.com/linsh63/text-detection-project)。
+**Text · Image · Video** &nbsp; / &nbsp; **3 specialist services** &nbsp; / &nbsp; **1 unified moderation gateway**
 
-项目报告：[多模态内容审核系统报告](doc/project_report.md)
+[Overview](#project-overview) · [Architecture](#how-it-works) · [Demo](#see-it-in-action) · [Results](#evaluation-results) · [Quick Start](#quick-start)
 
-## demo
+Collaborative project by **Yicheng Wang** and **Sihan Lin**.
 
+</div>
 
+## Project Overview
 
-https://github.com/user-attachments/assets/603bf46f-0378-44cd-ae65-b82044edc32e
+**Moderation goes beyond matching a list of blocked words.** Harmful messages can use phonetic substitutions, implicit conversational attacks, text inside images, or image-text combinations that change the meaning of a meme. Video adds speech, sound, motion, and facial expression.
 
+MM-ContentGuard brings specialist models into a single **review-before-send workflow**. A React chat interface sends message text and attachments to a FastAPI gateway, which routes each item to its moderation service and returns structured decisions and reasons. A message is sent only after all included items pass review.
 
+- **Robust text understanding:** three MacBERT experts combine contextual semantics with phonetic and glyph features to handle general risk, conversational boundaries, and rejection reasons.
+- **Two-stage image understanding:** visual classification, OCR/text checks, and rules address explicit risk; a ChineseCLIP semantic stage uses image-text evidence and auxiliary descriptions to assess memes and implicit meaning.
+- **Four-modality video analysis:** a PCLMM-based branch fuses frames, audio, speech transcripts, and facial expressions for patronizing and condescending language (PCL) detection.
+- **A working application:** modality adapters, consistent result schemas, review records, and fail-closed handling connect separately evaluated models to one messaging workflow.
 
-## 项目结构
+## How It Works
 
-```text
-frontend/web/       聊天前端
-backend/gateway/    统一审核网关，前端只调用这一层
-services/text/      文本审核服务，三层 BERT 策略
-services/image/     图片审核服务，图像模型 + OCR/语义模型
-services/video/     视频审核服务，PCLMM 多模态模型
-scripts/            下载资产、启动、检查和停止脚本
-doc/                架构、指标、运行资产和参考文档
-storage/            本地运行数据，运行时生成
-```
+![System architecture: message intake, text/image/video review branches, and gateway aggregation leading to send or hold decisions](doc/assets/system-overview.svg)
 
-## 复现范围
+| Route | Core design | What it handles |
+|---|---|---|
+| **Semantic text service** | Three MacBERT experts, phonetic/glyph fusion, tiered decision policy | General harmful text, implicit conversational attacks, and four user-facing reason categories |
+| **Image service** | DINOv3 + OCR + text checks + rules, followed by ChineseCLIP with description augmentation | Explicit visual risk, text embedded in images, and harmful image-text combinations |
+| **Video service** | ViT frames, MFCC audio, Whisper/BERT speech text, and FER-VT facial features with cross-attention fusion | PCL classification using four complementary modalities |
 
-老师或助教复现时，不需要重新训练模型。
+**Routing and decisions.** The first image stage can stop on explicit risk; images that pass continue to the semantic stage. The online text service uses a tiered policy for hard risk, review, and safe outcomes. At the gateway, all included content must pass. Timeouts, unavailable services, and parsing failures keep a message from being sent without review.
 
-必需内容分两部分：
+The gateway connects the MacBERT text, two-stage image, and four-modality video services through a shared review interface. The video branch adapts the [PCLMM framework](services/video/third_party/PCLMM/README.md).
 
-```text
-代码：从 GitHub clone 本仓库获得
-权重/缓存：从本仓库 GitHub Release 下载
-```
+## See It in Action
 
-数据集不是启动 demo 的必需项，只作为可选下载项提供给需要查看数据来源或复现实验的同学。
+**Recorded application demo.** The recording shows ordinary messages being sent, risky text receiving rejection reasons, image attachments receiving review outcomes, and a video attachment being uploaded and previewed.
 
-## 服务端口
+[![Recorded chat interface showing accepted messages and rejected promotional text with review reasons](doc/assets/demo-text.webp)](doc/assets/demo.mp4)
 
-```text
-文本 API:    http://127.0.0.1:8000
-图片 API:    http://127.0.0.1:8010
-视频 API:    http://127.0.0.1:8020
-审核网关:    http://127.0.0.1:8080
-前端页面:    http://127.0.0.1:5173
-```
+*Text moderation in the recorded application: accepted messages remain visible alongside rejected test inputs and their reasons. Click the image to open the complete 58-second demo.*
 
-## 1. Clone 仓库
+<table>
+<tr>
+<td width="50%"><a href="doc/assets/demo-image.webp"><img src="doc/assets/demo-image.webp" alt="Recorded image-moderation view with approved images and an image rejected as regulated content" width="100%"></a></td>
+<td width="50%"><a href="doc/assets/demo-video.webp"><img src="doc/assets/demo-video.webp" alt="Recorded application showing an uploaded video attachment with its preview" width="100%"></a></td>
+</tr>
+<tr>
+<td><strong>Image review.</strong> Approved images and a rejected image are shown with their application feedback.</td>
+<td><strong>Video workflow.</strong> A video attachment is uploaded and opened in the in-app preview.</td>
+</tr>
+</table>
+
+[Watch or download the complete demo →](doc/assets/demo.mp4)
+
+*Frames extracted from the provided recording preserve the original Chinese interface and test inputs. Evaluation results are reported separately below.*
+
+## Evaluation Results
+
+![Separate result panels for text risk recall, explicit-image classification, meme classification, and video ROC AUC, with dataset sizes](doc/assets/evaluation.png)
+
+| Evaluated component | Test scope | Reported result |
+|---|---|---|
+| **Tiered MacBERT text system** | 7,800 regular-test messages | **96.63% risk recall**, 94.74% accuracy, 94.59% macro F1 |
+| **Text social-boundary evaluation** | 400 manually constructed sealed examples | **99.00% accuracy, macro F1, and risk recall** |
+| **DINOv3 explicit-image classifier** | 975 SIMAS + PASS test images; 7 classes | **97.23% accuracy**, 96.12% macro F1 |
+| **ChineseCLIP meme semantic classifier** | 2,400 ToxiCN_MM test examples | **83.41% binary accuracy**, 80.29% binary macro F1 |
+| **PCLMM-based video classifier** | 31 feature-complete test clips | **0.8846 ROC AUC**; at threshold 0.32, 87.10% accuracy and 71.30% macro F1 |
+
+**Different tasks, separate evidence.** These results describe each component on its own dataset. They are not a pooled overall accuracy or an end-to-end gateway score. The sealed text set is constructed, and the video results use a small feature-complete subset with a threshold selected from test-set comparisons. [Protocols, trade-offs, and full results →](doc/EVALUATION.md)
+
+### Video Inference Engineering
+
+![Reported video processing times: about 65 seconds for serial subprocess extraction, 47 seconds for parallel subprocess extraction, and 7.4 seconds for resident parallel extraction](doc/assets/video-latency.png)
+
+The report records an approximately **88.6% reduction in reference processing time**, from about 65 to 7.4 seconds for an approximately ten-second clip, after keeping models resident and extracting features in parallel. Feature caching supports repeated requests. These are configuration-specific reference timings, not a standardized throughput benchmark.
+
+Results and timings are transcribed from the [project report](doc/project_report.md), with dataset and metric details in the [evaluation notes](doc/EVALUATION.md). No experiments were rerun for this README.
+
+## Quick Start
+
+The supplied scripts target **Linux/Bash**, with **Python 3.10**, **FFmpeg**, **Node.js/npm**, and the documented PyTorch/CUDA environment. Trained checkpoints and model caches are downloaded separately; no retraining is required for the demo.
 
 ```bash
 git clone https://github.com/Wangych297/MM-ContentGuard.git
 cd MM-ContentGuard
 ```
 
-## 2. 准备 conda 环境
-
-推荐 Python 3.10 和 CUDA 版 PyTorch：
-
-```bash
-conda create -y -n multimodal-risk-chat python=3.10
-conda activate multimodal-risk-chat
-
-conda install -y -c pytorch -c nvidia \
-  pytorch==2.2.2 torchvision==0.17.2 torchaudio==2.2.2 pytorch-cuda=12.1
-
-conda install -y -c conda-forge ffmpeg
-
-python -m pip install "setuptools<70" wheel packaging
-python -m pip install --no-build-isolation -r requirements-unified.txt
-python -m pip install -e backend/gateway
-python -m pip install -e services/text
-python -m pip install -e 'services/image[ocr]'
-```
-
-验证 Python 环境：
-
-```bash
-python -c "import torch; print(torch.__version__); print(torch.cuda.is_available()); print(torch.version.cuda)"
-python -c "import fastapi, httpx, uvicorn, transformers, whisper, easyocr, timm, pypinyin; print('env ok')"
-ffmpeg -version
-```
-
-## 3. 准备前端依赖
-
-```bash
-cd frontend/web
-npm ci
-npm run build
-cd ../..
-```
-
-## 4. 下载运行权重
-
-模型权重、预训练模型缓存和 Whisper 权重不提交进 Git，需要从本仓库 Release 下载。
-
-一键下载必需运行资产：
-
-```bash
-VERSION=v0.1.0 bash scripts/download_runtime_assets.sh
-```
-
-如果只想分开下载：
-
-```bash
-VERSION=v0.1.0 bash scripts/download_text_assets.sh
-VERSION=v0.1.0 bash scripts/download_image_assets.sh
-VERSION=v0.1.0 bash scripts/download_video_assets.sh
-```
-
-检查资产是否齐全：
-
-```bash
-bash scripts/check_runtime_assets.sh
-```
-
-看到下面输出即表示权重准备完成：
-
-```text
-Runtime assets are ready.
-```
-
-Release 文件清单见：
-
-```text
-doc/release_assets_checklist.md
-doc/runtime_assets.md
-```
-
-## 5. 配置环境变量
+Follow the [environment and asset setup](doc/RUNNING.md), then start the services:
 
 ```bash
 cp .env.example .env
-```
-
-`.env.example` 不绑定具体 GPU 编号。默认配置会让各服务自动选择可用设备：
-
-```text
-TEXT_DEVICE=auto
-TEXT_CUDA_VISIBLE_DEVICES=
-IMAGE_CUDA_VISIBLE_DEVICES=
-VIDEO_CUDA_VISIBLE_DEVICES=
-PCLMM_API_DEVICE=auto
-PCLMM_API_VIT_DEVICE=auto
-PCLMM_API_WHISPER_DEVICE=auto
-PCLMM_API_BERT_DEVICE=auto
-PCLMM_API_FACE_DEVICE=auto
-```
-
-如果想指定某几张 GPU，再编辑 `.env`。例如只让视频服务看到 0、1 号卡：
-
-```text
-VIDEO_CUDA_VISIBLE_DEVICES=0,1
-PCLMM_API_DEVICE=cuda:1
-PCLMM_API_VIT_DEVICE=cuda:0
-PCLMM_API_WHISPER_DEVICE=cuda:0
-PCLMM_API_BERT_DEVICE=cuda:0
-PCLMM_API_FACE_DEVICE=cuda:1
-```
-
-如果只想先用 CPU 或单卡调试，也可以把对应设备改成可用的本机配置，但视频和图片模型会明显变慢。
-
-## 6. 启动系统
-
-推荐一键后台启动：
-
-```bash
+VERSION=v0.1.0 bash scripts/download_runtime_assets.sh
+bash scripts/check_runtime_assets.sh
 bash scripts/start_all.sh
-```
-
-也可以分别启动：
-
-```bash
-bash scripts/start_text.sh
-bash scripts/start_image.sh
-bash scripts/start_video.sh
-bash scripts/start_gateway.sh
-bash scripts/start_frontend.sh
-```
-
-前端地址：
-
-```text
-http://127.0.0.1:5173/
-```
-
-## 7. 检查服务
-
-```bash
 bash scripts/check_services.sh
 ```
 
-预期五项均为 `[ok]`：
+Open **http://127.0.0.1:5173/**. Configure GPU devices and any VLM description endpoint in `.env` for your machine. The download scripts currently use the original collaborative repository's release assets.
 
-```text
-text
-image
-video
-gateway
-frontend
-```
+[Complete installation, service ports, API examples, training references, and shutdown instructions →](doc/RUNNING.md)
 
-## 8. 简单测试
+<details>
+<summary><strong>Repository map</strong></summary>
 
-安全文本：
+| Directory | Responsibility |
+|---|---|
+| [`frontend/web/`](frontend/web/) | React/Vite chat interface and moderation feedback |
+| [`backend/gateway/`](backend/gateway/) | FastAPI gateway, adapters, message state, and review records |
+| [`services/text/`](services/text/) | MacBERT experts, training, and text moderation API |
+| [`services/image/`](services/image/) | Explicit-image and semantic-meme models, OCR, and image API |
+| [`services/video/`](services/video/) | PCLMM-based fusion, feature extraction, and video API |
+| [`scripts/`](scripts/) | Runtime asset preparation and service lifecycle |
+| [`doc/`](doc/) | Project report, architecture, evaluation, and reproduction guides |
 
-```bash
-curl --noproxy '*' -X POST 'http://127.0.0.1:8080/api/conversations/demo/messages' \
-  -F 'text=今天晚上一起吃饭吗' \
-  -F 'client_message_id=local_safe_text'
-```
+</details>
 
-风险文本：
+## Scope and Acknowledgments
 
-```bash
-curl --noproxy '*' -X POST 'http://127.0.0.1:8080/api/conversations/demo/messages' \
-  -F 'text=出售枪支弹药，赌博彩票网站，微信联系' \
-  -F 'client_message_id=local_risk_text'
-```
+This is a research and engineering prototype for Chinese-language social-media content. Video evaluation addresses PCL rather than every category of harmful video. A moderation decision is a model/policy outcome; deployment thresholds and review practices need to match the intended use.
 
-图片测试可以使用仓库内的小样例：
-
-```bash
-curl --noproxy '*' -X POST 'http://127.0.0.1:8080/api/conversations/demo/messages' \
-  -F 'files=@services/image/demo_samples/api_flow_samples/03_SIMAS_firearms_final_risk_stage1_weapon.jpg;type=image/jpeg' \
-  -F 'client_message_id=local_risk_image'
-```
-
-视频 demo 素材体积较大，作为可选资产下载：
-
-```bash
-VERSION=v0.1.0 bash scripts/download_demo_assets.sh
-```
-
-下载后可用本地视频文件测试，也可以把路径换成任意本地 `.mp4`：
-
-```bash
-curl --noproxy '*' -X POST 'http://127.0.0.1:8080/api/conversations/demo/messages' \
-  -F 'files=@demo/demo_short.mp4;type=video/mp4' \
-  -F 'client_message_id=local_video'
-```
-
-## 9. 可选数据集
-
-数据集不影响推理 demo。需要查看数据或复现实验时再下载：
-
-```bash
-VERSION=v0.1.0 bash scripts/download_dataset_assets.sh
-```
-
-训练和实验说明见：
-
-```text
-doc/bert_text_review/
-doc/video_review/
-doc/traditional_text_ml/
-```
-
-## 10. 停止服务
-
-```bash
-bash scripts/stop_all.sh
-```
-
-## 维护者打包 Release
-
-在已经具备本机权重的机器上生成 Release 资产：
-
-```bash
-VERSION=v0.1.0 bash scripts/package_runtime_assets.sh
-```
-
-如果还要打包可选数据集和 demo 素材：
-
-```bash
-VERSION=v0.1.0 PACKAGE_DATASETS=true PACKAGE_DEMO=true bash scripts/package_runtime_assets.sh
-```
-
-生成的文件位于：
-
-```text
-release_assets/
-```
-
-上传清单见：
-
-```text
-doc/release_assets_checklist.md
-```
+The project builds on MacBERT, DINOv3, ChineseCLIP, PCLMM, and their dependencies. See the [reference list](doc/reference.md) and preserved upstream documentation. Dataset and third-party asset use remains subject to their original licenses and terms.

@@ -78,3 +78,12 @@ services/**/outputs/api/
 # OS/editor noise
 .DS_Store
 Thumbs.db
+
+# Curated README visuals and the provided demonstration recording
+!doc/assets/*.png
+!doc/assets/*.webp
+!doc/assets/demo.mp4
+!doc/assets/*.svg
+
+# Local documentation preparation files
+/tmp/
