@@ -4,7 +4,7 @@
 
 ## What the Numbers Describe
 
-Results are transcribed from the [project report](project_report.md), especially Sections 3.5, 4.6, 5.7, and 7.2, and the repository's model-specific evaluation records. No models were retrained or reevaluated while preparing the README.
+This page summarizes the evaluation datasets, component-level results, and operating thresholds.
 
 The system combines independently trained and evaluated components. Their datasets, labels, and metrics differ. There is **no pooled overall moderation accuracy** in the report, and component scores should not be treated as an end-to-end gateway benchmark.
 
@@ -25,7 +25,6 @@ The benefit has a measurable trade-off. On the regular test, hard-risk detection
 
 The separate four-category reason classifier reports 99.43% accuracy and 98.64% macro F1 on 3,331 risk examples. This is a component result, not the full text pipeline's accuracy.
 
-Source: [text evaluation sets and results](bert_text_review/text_evaluation_sets_and_results.md).
 
 ## Two-Stage Image Moderation
 
@@ -68,5 +67,3 @@ Report Table 5-4 gives reference times for an approximately ten-second clip:
 | Resident | Parallel | 7.4 s |
 
 The reduction from 65 to 7.4 seconds is approximately 88.6%. These are reported configuration timings; the report does not fully specify a standardized hardware, warm-up, cache, or repeated-trial protocol. They should not be interpreted as a universal speedup or latency guarantee.
-
-Source: [video experiment metrics](video_review/video_experiment_metrics.md) and project report Section 5.7.4.

@@ -4,7 +4,7 @@
 
 随着社交媒体内容形态不断变化，有害与违规信息已经从固定模板的垃圾短信，扩展到口语短句、谐音变体、隐晦攻击、广告图片、表情包和短视频等多种形式。围绕这一问题，我们设计并实现了一套面向现代社交平台的多模态有害信息检测系统，将整体任务拆分为传统垃圾文本检测、深层语义文本审核、双层图片审核和视频PCL检测四条研究路线。
 
-在模型层面，我们分别实现了TF-IDF+SVM、Rule-free CSN+LR、多专家MacBERT[1]、DINOv3[2]与ChineseCLIP[3]双层图片模型，以及基于画面、音频、语音文本和人脸表情的四模态交叉注意力视频模型。四条路线分别处理显式垃圾、字符变体、隐晦口语攻击、图片与梗图风险、短视频贬损风险，并在各自数据集上取得了较好的检测效果。
+在模型层面，我们分别实现了TF-IDF+SVM、Rule-free CSN+LR、多专家MacBERT、DINOv3与ChineseCLIP双层图片模型，以及基于画面、音频、语音文本和人脸表情的四模态交叉注意力视频模型。四条路线分别处理显式垃圾、字符变体、隐晦口语攻击、图片与梗图风险、短视频贬损风险，并在各自数据集上取得了较好的检测效果。
 
 在系统层面，我们使用FastAPI构建统一审核网关，接入文本、图片和视频模型服务，并通过React前端完成消息发送、审核反馈和风险原因展示。系统采用统一结果格式和Fail-closed策略，使模型能力能够真正进入聊天消息审核流程。最终项目形成了从数据处理、模型训练、实验评测到在线审核系统集成的完整闭环。
 
@@ -212,7 +212,6 @@
         *   8.5.1 数据与评测扩展
         *   8.5.2 模型与阈值优化
         *   8.5.3 系统工程升级
-*   **参考文献**
 
 ---
 
@@ -248,7 +247,6 @@
 
 #### 1.2.1 既有检测长期侧重文本，难以覆盖图片与视频内容
 
-![ChatGPT Image 2026年7月10日 01_03_49 (4)](现代社交媒体有害与违规信息检测系统最终报告.assets\ChatGPT Image 2026年7月10日 01_03_49 (4).png)
 
 **早期有害信息检测主要围绕文本展开**，常见任务包括垃圾邮件过滤、垃圾短信识别、敏感词检测和评论文本分类。这类数据容易收集和标注，输入形式也比较统一，因此正则表达式、关键词词表、TF-IDF和文本分类模型得到了较为充分的研究与应用。
 
@@ -258,7 +256,6 @@
 
 #### 1.2.2 检测覆盖维度有限，对对抗性隐性内容的感知能力较弱
 
-![ChatGPT Image 2026年7月10日 01_03_50 (5)](现代社交媒体有害与违规信息检测系统最终报告.assets\ChatGPT Image 2026年7月10日 01_03_50 (5).png)
 
 **文本中的对抗性表达具有很强的变化能力。**静态关键词过滤只能命中已经写入规则的内容，发送者可以使用同音字、形近字、拼音混排、数字替换、拆字和符号插入改变字面形式。联系方式也可以被拆成多个片段，使完全相等匹配失去作用。基于词袋、TF-IDF和普通字符统计的方法能够学习常见局部模式，但面对训练数据中很少出现的新式变体时，仍然会遇到特征稀疏和未登录字符问题。
 
@@ -272,7 +269,6 @@
 
 #### 1.2.3 语境适配存在偏差，碎片化短文本容易产生误判与漏判
 
-![ChatGPT Image 2026年7月10日 01_03_51 (6)](现代社交媒体有害与违规信息检测系统最终报告.assets\ChatGPT Image 2026年7月10日 01_03_51 (6).png)
 
 **通用文本分类模型通常在相对完整的语句上训练，而真实聊天中大量内容只有几个字符。**句子越短，可供判断的证据越少，模型越容易依赖某个局部词语做出决定。拼音首字母、网络缩写和新兴用语还会带来未登录表达，通用模型可能无法从字面编码中恢复真实意图。
 
@@ -879,9 +875,6 @@ AST测试集包含4803条样本，其中正常文本1500条、垃圾文本3303�
 | **TF-IDF+SVM** | **0.9940** | **0.9956** |
 | Rule-free CSN+LR | 0.9715 | 0.9791 |
 
-![AST测试集不同模型指标对比](./text-detection-project-main/docs/metrics_comparison.svg)
-
-<p align="center"><b>图2-2 AST测试集不同传统模型的Accuracy与Spam F1</b></p>
 
 多数类基线把所有文本都预测为垃圾，因此Accuracy只有0.6877。它的Spam F1达到0.8150，看起来并不低，原因是测试集中垃圾样本本来就占多数。这个结果也说明，只看垃圾类F1或只看Accuracy都可能遗漏类别分布带来的影响，需要结合混淆矩阵和错误数量一起分析。
 
@@ -908,9 +901,6 @@ SVM路径直接保留网址、号码和模板片段，最终只有13条误报和
 | HF chinese-spam | 9941 | 2983 | 0.9085 |
 | HF conversation-spam | 7731 | 2320 | 0.9793 |
 
-![TF-IDF+SVM多数据集准确率](./text-detection-project-main/docs/tfidf_svm_dataset_accuracy.svg)
-
-<p align="center"><b>图2-3 TF-IDF+SVM在不同来源数据集上的Accuracy</b></p>
 
 AST、FBS mixed和Chinese SMS 20k上的Accuracy都很高，HF chinese-spam下降到0.9085。这里的每个数字都来自各数据集内部的随机划分，表示模型在同源训练和测试条件下的表现。现有实验没有设置“在AST训练后迁移到其他数据集”的跨域评测，不同来源的文本长度、标签标准和表达风格也会显著影响传统统计特征。
 
@@ -1430,7 +1420,7 @@ POST /text/batch-check
 
 #### 4.1.2 6500张SIMAS与PASS显式图片数据
 
-**第一层视觉模型使用6500张图片训练七分类显式风险识别能力。**其中SIMAS提供5000张带有风险或安全标签的图片，PASS补充1500张正常图片；全部数据按照标签进行分层划分，训练集4550张、验证集975张、测试集975张。SIMAS数据集来自面向多媒体消息审核的人工标注图片集合[10]，PASS是去除人物信息、用于自监督预训练的安全图片数据集[11]；本项目只使用了项目中保存的相应子集，并按数据集许可范围用于课程研究。
+**第一层视觉模型使用6500张图片训练七分类显式风险识别能力。**其中SIMAS提供5000张带有风险或安全标签的图片，PASS补充1500张正常图片；全部数据按照标签进行分层划分，训练集4550张、验证集975张、测试集975张。SIMAS数据集来自面向多媒体消息审核的人工标注图片集合，PASS是去除人物信息、用于自监督预训练的安全图片数据集；本项目只使用了项目中保存的相应子集，并按数据集许可范围用于课程研究。
 
 <p align="center"><b>表4-1 第一层显式图片数据构成</b></p>
 
@@ -1642,7 +1632,7 @@ flowchart TB
 >
 > `multimodal-risk-chat-main/services/image/src/semantic_model/description_provider.py`
 
-**VLM在第二层中只负责把图片转写成结构化语义描述。**请求通过OpenAI-compatible视觉语言接口发送原图base64、OCR文字、中文系统提示和JSON输出约束，目标字段为`text_description`与`meme_description`。这种“冻结视觉编码器、使用语言模型完成视觉语言描述”的组件思路与BLIP-2[8]所代表的视觉语言连接方法一致；前者说明图片文字的含义、语气和攻击对象，后者说明整张图的梗、讽刺、冒犯或性暗示。
+**VLM在第二层中只负责把图片转写成结构化语义描述。**请求通过OpenAI-compatible视觉语言接口发送原图base64、OCR文字、中文系统提示和JSON输出约束，目标字段为`text_description`与`meme_description`。这种“冻结视觉编码器、使用语言模型完成视觉语言描述”的组件思路与BLIP-2所代表的视觉语言连接方法一致；前者说明图片文字的含义、语气和攻击对象，后者说明整张图的梗、讽刺、冒犯或性暗示。
 
 **最终风险结论由本地ChineseCLIP输出。**VLM描述与OCR文字一样属于模型输入，本地二分类头和五分类头承担可训练、可评测的最终判断。描述接口未配置或返回错误时，描述字段保持为空，第一层DINOv3、OCR、文本服务和规则能力仍然正常工作。
 
@@ -1841,15 +1831,7 @@ flowchart TB
 | “你这样会被diss”熊猫头 | 第一层未触发风险 | `general_offense`；harmful=0.8603 | `blocked_by_semantic_model` |
 | 性暗示四格梗图 | 第一层未直接拦截 | `sexual`；harmful=0.9998 | `blocked_by_semantic_model` |
 
-<p align="center">
-  <img src="./report_assets/chapter4/api_weapon.jpg" width="38%" />
-  &nbsp;&nbsp;
-  <img src="./report_assets/chapter4/api_targeted_offense.jpg" width="38%" />
-</p>
-
-<p align="center"><b>图4-6 真实API样例：（a）第一层拦截的SIMAS枪支图片；（b）第二层拦截的ToxiCN_MM 10144号针对性冒犯图片</b></p>
-
-**图4-6展示了两条不同的真实级联路径。**左图由DINOv3直接输出`weapon`并结束推理，右图的视觉分支和OCR文本分支均未触发第一层拦截，最终由ChineseCLIP输出`targeted_offense`。两张图片分别来自SIMAS和ToxiCN_MM完整数据，项目在API flow目录中保留了对应副本与逐项预测结果。
+**真实API样例包含两条不同的级联路径。**SIMAS枪支样例由DINOv3直接输出`weapon`并结束推理；ToxiCN_MM针对性冒犯样例的视觉分支和OCR文本分支均未触发第一层拦截，最终由ChineseCLIP输出`targeted_offense`。项目在API flow目录中保留了对应副本与逐项预测结果。
 
 ### 4.7 结果分析
 
@@ -1867,37 +1849,17 @@ flowchart TB
 
 #### 4.7.3 典型图片样例分析
 
-<p align="center">
-  <img src="./report_assets/chapter4/api_general_offense.jpg" width="30%" />
-  &nbsp;&nbsp;
-  <img src="./report_assets/chapter4/toxicn_45_sexual.jpg" width="25%" />
-  &nbsp;&nbsp;
-  <img src="./report_assets/chapter4/api_sexual.jpg" width="30%" />
-</p>
+**系统能够在第一层直接识别SIMAS样例中的枪支风险。**该SIMAS测试样本的真实标签为`weapon`，DINOv3输出`weapon=0.9674`，已经超过第一层0.65风险阈值，流水线返回`blocked_by_image_pipeline`并跳过第二层。这个数值与项目保存的JSON原始结果保持一致，表4-11和本节统一采用四位小数。
 
-<p align="center"><b>图4-7 ToxiCN_MM真实难例：（a）11273号泛攻击熊猫头；（b）45号隐喻性暗示图片；（c）79号性暗示四格梗图</b></p>
+**系统能够补抓ToxiCN_MM 10144号文字模型单独判断为安全的针对性冒犯梗图。**“我不单指美帝，我指的是在座的各位都是辣鸡”样例中，图像模型输出`safe=0.9501`，OCR文本风险概率只有0.0002；第二层把图像、文字和梗图描述结合后输出`targeted_offense`，有害概率达到0.9720并完成拦截。
 
-**系统能够在第一层直接识别图4-6（a）中的枪支风险。**该SIMAS测试样本的真实标签为`weapon`，DINOv3输出`weapon=0.9674`，已经超过第一层0.65风险阈值，流水线返回`blocked_by_image_pipeline`并跳过第二层。这个数值与项目保存的JSON原始结果保持一致，表4-11和本节统一采用四位小数。
+**系统能够识别ToxiCN_MM 11273号样例中依赖画面关系和配文语气的泛攻击表达。**“你这样会被diss的我跟你讲”样例在第一层没有触发风险，VLM描述补充熊猫头表情中的戏谑与嘲讽关系，ChineseCLIP最终输出`general_offense`，有害概率为0.8603。
 
-**系统能够补抓图4-6（b）中文字模型单独判断为安全的针对性冒犯梗图。**“我不单指美帝，我指的是在座的各位都是辣鸡”样例中，图像模型输出`safe=0.9501`，OCR文本风险概率只有0.0002；第二层把图像、文字和梗图描述结合后输出`targeted_offense`，有害概率达到0.9720并完成拦截。
+**ToxiCN_MM 45号样例体现了只看文字容易遗漏的隐喻性暗示。**45号样本表面上是楼梯与屋顶通道示意图，整体轮廓与“第一次找不到楼梯和通道”的文字共同形成性暗示。ToxiCN_MM将其真实标签标为`sexual`，模态标注为`text_modal=0、image_modal=1`，说明该样本的风险主要来自画面结构，单独读取OCR文字无法完整恢复其含义。
 
-**系统能够识别图4-7（a）中依赖画面关系和配文语气的泛攻击表达。**“你这样会被diss的我跟你讲”样例在第一层没有触发风险，VLM描述补充熊猫头表情中的戏谑与嘲讽关系，ChineseCLIP最终输出`general_offense`，有害概率为0.8603。
+**系统能够识别ToxiCN_MM 79号样例中依赖完整图文语境形成的性暗示。**79号四格梗图中的OCR文字包含“手冲”“我戒了”等表达，单独文本风险概率接近0；第二层联合对话内容、人物行为和梗图描述后输出`sexual`，有害概率达到0.9998并完成拦截。
 
-**图4-7（b）展示了只看文字容易遗漏的隐喻性暗示。**45号样本表面上是楼梯与屋顶通道示意图，整体轮廓与“第一次找不到楼梯和通道”的文字共同形成性暗示。ToxiCN_MM将其真实标签标为`sexual`，模态标注为`text_modal=0、image_modal=1`，说明该样本的风险主要来自画面结构，单独读取OCR文字无法完整恢复其含义。
-
-**系统能够识别图4-7（c）中依赖完整图文语境形成的性暗示。**79号四格梗图中的OCR文字包含“手冲”“我戒了”等表达，单独文本风险概率接近0；第二层联合对话内容、人物行为和梗图描述后输出`sexual`，有害概率达到0.9998并完成拦截。
-
-<p align="center">
-  <img src="./report_assets/chapter4/test_error_gambling79.jpg" width="18%" />
-  <img src="./report_assets/chapter4/test_error_alcohol280.jpg" width="18%" />
-  <img src="./report_assets/chapter4/test_error_sexualsafe439.jpg" width="18%" />
-  <img src="./report_assets/chapter4/test_error_violence256.jpg" width="18%" />
-  <img src="./report_assets/chapter4/test_error_alcohol290.jpg" width="18%" />
-</p>
-
-<p align="center"><b>图4-8 独立测试集误分类样例：（a）赌博图片被判为safe；（b）酒精图片被判为safe；（c）正常图片被判为regulated_goods；（d）暴力图片被判为safe；（e）酒精图片被判为violence</b></p>
-
-**图4-8补充了系统在独立测试集上的真实错误案例。**这些样例说明，错误主要来自风险主体不突出、正常商品与管制商品外观相似，以及颜色和构图造成的跨类别视觉相似；它们与混淆矩阵中的safe、gambling、regulated_goods和violence边界对应。
+**独立测试集还包含真实的误分类案例。**这些样例说明，错误主要来自风险主体不突出、正常商品与管制商品外观相似，以及颜色和构图造成的跨类别视觉相似；它们与混淆矩阵中的safe、gambling、regulated_goods和violence边界对应。
 
 #### 4.7.4 各检测分支的能力与任务边界
 
@@ -1913,7 +1875,7 @@ flowchart TB
 
 ## 五、基于四模态交叉注意力的视频PCL检测系统
 
-**视频路线把单帧视觉审核扩展为画面、音频、语音文本和人脸表情的联合判断。**视频中的风险可能来自连续画面，也可能来自说话内容、声音频谱或人物表情；同一段语音放在不同画面和语气中还会形成不同含义。我们使用ViT[4]、MFCC、Whisper[5]、Chinese BERT、MTCNN[6]和FER-VT[7]提取四路特征，再通过MultiModalCrossAttention[9]输出normal/PCL概率。
+**视频路线把单帧视觉审核扩展为画面、音频、语音文本和人脸表情的联合判断。**视频中的风险可能来自连续画面，也可能来自说话内容、声音频谱或人物表情；同一段语音放在不同画面和语气中还会形成不同含义。我们使用ViT、MFCC、Whisper、Chinese BERT、MTCNN和FER-VT提取四路特征，再通过MultiModalCrossAttention输出normal/PCL概率。
 
 ### 5.1 视频PCL任务与四模态评测数据
 
@@ -1992,7 +1954,7 @@ flowchart TD
 
 #### 5.3.1 ViT画面帧特征
 
-**画面分支使用Google ViT Base提取每帧视觉语义。**OpenCV按照视频配置完成解码与抽帧，帧图像转换为RGB PIL Image后送入`ViTFeatureExtractor`和预训练ViT。模型输出`last_hidden_state`，再对图像token进行均值池化，形成每帧768维特征。ViT的图像分块与Transformer编码结构参考视觉Transformer原始工作[4]。
+**画面分支使用Google ViT Base提取每帧视觉语义。**OpenCV按照视频配置完成解码与抽帧，帧图像转换为RGB PIL Image后送入`ViTFeatureExtractor`和预训练ViT。模型输出`last_hidden_state`，再对图像token进行均值池化，形成每帧768维特征。ViT的图像分块与Transformer编码结构参考视觉Transformer原始工作。
 
 **Resident模式对视频帧进行批量推理。**默认ViT batch size为16，多帧一次进入视觉模型，减少逐帧调用带来的额外开销。最终特征按时间顺序保存，供融合模型观察连续画面变化。
 
@@ -2004,13 +1966,13 @@ flowchart TD
 
 #### 5.3.3 Whisper与Chinese BERT语音文本特征
 
-**语音文本分支先转写内容，再提取中文语义。**Whisper large/large-v3处理WAV并生成中文或多语言文本，Chinese BERT tokenizer将文本截断到最长512个token，BERT的CLS表示形成768维全局语义特征。Whisper采用大规模弱监督语音识别模型的公开方法[5]。
+**语音文本分支先转写内容，再提取中文语义。**Whisper large/large-v3处理WAV并生成中文或多语言文本，Chinese BERT tokenizer将文本截断到最长512个token，BERT的CLS表示形成768维全局语义特征。Whisper采用大规模弱监督语音识别模型的公开方法。
 
 **Whisper与BERT在执行顺序上存在明确依赖。**音频文件准备后，MFCC与Whisper可以并行；BERT需要等待Whisper文本生成后才能执行。这一依赖关系也被保留在Resident并行调度中。
 
 #### 5.3.4 MTCNN与FER-VT人脸表情特征
 
-**人脸分支使用MTCNN定位人脸，再由FER-VT提取表情表示。**Resident配置默认最多采样8帧，FER-VT通过forward hook获取中间表情特征，并整理为融合模型需要的时序矩阵。MTCNN采用级联检测与关键点定位方法[6]，FER-VT对应视觉Transformer表情识别路线的公开研究[7]。
+**人脸分支使用MTCNN定位人脸，再由FER-VT提取表情表示。**Resident配置默认最多采样8帧，FER-VT通过forward hook获取中间表情特征，并整理为融合模型需要的时序矩阵。MTCNN采用级联检测与关键点定位方法，FER-VT对应视觉Transformer表情识别路线的公开研究。
 
 **未检测到人脸时使用全零特征完成结构兜底。**无人脸视频仍然可以依靠画面、音频和语音文本完成推理，四模态张量形状保持一致。该处理避免人脸缺失直接中断整段视频审核。
 
@@ -2435,7 +2397,6 @@ flowchart TB
 
 #### 7.4.1 未成年人聊天与儿童社交
 
-![ChatGPT Image 2026年7月10日 00_08_41 (1)](现代社交媒体有害与违规信息检测系统最终报告.assets\ChatGPT Image 2026年7月10日 00_08_41 (1).png)
 
 **未成年人聊天是本系统最主要的适用场景。**具体可以用于QQ和微信中的未成年人交流场景、钉钉班级群、企业微信家校群、学习通讨论区，以及小天才电话手表等儿童终端的聊天功能。系统能够拦截广告诈骗、赌博引流、辱骂仇恨、低俗梗图、显式违规图片和PCL视频。
 
@@ -2443,7 +2404,6 @@ flowchart TB
 
 #### 7.4.2 陌生人社交与平台私信
 
-![ChatGPT Image 2026年7月10日 00_08_41 (2)](现代社交媒体有害与违规信息检测系统最终报告.assets\ChatGPT Image 2026年7月10日 00_08_41 (2).png)
 
 **陌生人社交和平台私信需要严格处理骚扰、引流与隐晦攻击。**具体可以用于Soul、陌陌等陌生人社交软件，也可以用于抖音、快手、B站、微博和小红书的用户私信、创作者私信与粉丝消息。系统可以同时检查正文、聊天图片、表情包和视频附件，阻止用户通过附件绕过文本审核。
 
@@ -2451,7 +2411,6 @@ flowchart TB
 
 #### 7.4.3 直播弹幕与互动评论
 
-![ChatGPT Image 2026年7月10日 00_08_41 (3)](现代社交媒体有害与违规信息检测系统最终报告.assets\ChatGPT Image 2026年7月10日 00_08_41 (3).png)
 
 **直播弹幕和互动评论适合重点使用MacBERT文本路线。**具体可以用于抖音直播、快手直播、B站直播、斗鱼和虎牙的弹幕、直播评论与主播互动区，识别辱骂攻击、阴阳怪气、冷暴力、赌博引流和变体广告。
 
@@ -2459,7 +2418,6 @@ flowchart TB
 
 #### 7.4.4 未成年人较多的网络游戏聊天
 
-![ChatGPT Image 2026年7月10日 00_08_41 (4)](现代社交媒体有害与违规信息检测系统最终报告.assets\ChatGPT Image 2026年7月10日 00_08_41 (4).png)
 
 **网络游戏聊天适合使用文本审核与严格的发送前拦截。**具体可以用于《王者荣耀》《和平精英》《蛋仔派对》《元梦之星》等游戏的世界频道、组队频道、公会聊天和玩家私聊，处理辱骂、骚扰、赌博广告、账号交易与联系方式引流。
 
@@ -2467,7 +2425,6 @@ flowchart TB
 
 #### 7.4.5 短视频投稿、视频私信与内容复核
 
-![ChatGPT Image 2026年7月10日 00_08_41 (5)](现代社交媒体有害与违规信息检测系统最终报告.assets\ChatGPT Image 2026年7月10日 00_08_41 (5).png)
 
 **四模态视频路线适合用于风险要求较高的短视频审核。**具体可以用于抖音、快手、B站、微信视频号和西瓜视频的投稿审核、视频私信、举报复核与青少年内容专区，识别带有贬低、歧视和攻击倾向的PCL视频。
 
@@ -2611,28 +2568,6 @@ flowchart TB
 
 最后，我们还希望补充容器化、服务监控和模型版本管理。文本、图片、视频和Gateway分别维护运行环境，系统持续记录请求量、响应时间、超时率、拒绝率和疑似风险比例。**完成这些工程升级以后，当前原型就可以继续向长期运行、持续更新的严格内容审核系统发展。**
 
-## 参考文献
-
-[1] Cui Yiming, Che Wanxiang, Liu Ting, Qin Bing, Yang Ziqing. **Pre-Training with Whole Word Masking for Chinese BERT**[EB/OL]. arXiv:1906.08101, 2019. [https://arxiv.org/abs/1906.08101](https://arxiv.org/abs/1906.08101).
-
-[2] Siméoni Oriane, Vo Huy V., Seitzer Maximilian, et al. **DINOv3**[EB/OL]. arXiv:2508.10104, 2025. [https://arxiv.org/abs/2508.10104](https://arxiv.org/abs/2508.10104).
-
-[3] Yang An, Pan Junshu, Lin Junyang, et al. **Chinese CLIP: Contrastive Vision-Language Pretraining in Chinese**[EB/OL]. arXiv:2211.01335, 2022. [https://arxiv.org/abs/2211.01335](https://arxiv.org/abs/2211.01335).
-
-[4] Dosovitskiy Alexey, Beyer Lucas, Kolesnikov Alexander, et al. **An Image Is Worth 16×16 Words: Transformers for Image Recognition at Scale**[C]//International Conference on Learning Representations. 2021. [https://openreview.net/forum?id=YicbFdNTTy](https://openreview.net/forum?id=YicbFdNTTy).
-
-[5] Radford Alec, Kim Jong Wook, Xu Tao, et al. **Robust Speech Recognition via Large-Scale Weak Supervision**[C]//Proceedings of the 40th International Conference on Machine Learning. PMLR, 2023, 202: 28492–28518. [https://proceedings.mlr.press/v202/radford23a.html](https://proceedings.mlr.press/v202/radford23a.html).
-
-[6] Zhang Kaipeng, Zhang Zhanpeng, Li Zhifeng, Qiao Yu. **Joint Face Detection and Alignment Using Multitask Cascaded Convolutional Networks**[J]. IEEE Signal Processing Letters, 2016, 23(10): 1499–1503. DOI: [10.1109/LSP.2016.2603342](https://doi.org/10.1109/LSP.2016.2603342).
-
-[7] Ma Fuyan, Sun Bin, Li Shutao. **Facial Expression Recognition with Visual Transformers and Attentional Selective Fusion**[J/OL]. IEEE Transactions on Affective Computing, 2021. [https://arxiv.org/abs/2103.16854](https://arxiv.org/abs/2103.16854).
-
-[8] Li Junnan, Li Dongxu, Savarese Silvio, Hoi Steven. **BLIP-2: Bootstrapping Language-Image Pre-training with Frozen Image Encoders and Large Language Models**[C]//Proceedings of the 40th International Conference on Machine Learning. PMLR, 2023, 202: 19730–19742. [https://proceedings.mlr.press/v202/li23q.html](https://proceedings.mlr.press/v202/li23q.html).
-
-[9] Tsai Yao-Hung Hubert, Bai Shaojie, Liang Paul Pu, et al. **Multimodal Transformer for Unaligned Multimodal Language Sequences**[C]//Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics. 2019: 6558–6569. [https://aclanthology.org/P19-1656/](https://aclanthology.org/P19-1656/).
-
-[10] Ljubičić Maria, Lacić Emanuel, Helic Denis. **Spam Images in Messaging - Annotated Set (SIMAS)**[DS/OL]. Zenodo, 2025. DOI: [10.5281/zenodo.15423637](https://doi.org/10.5281/zenodo.15423637).
-
-[11] Asano Yuki M., Rupprecht Christian, Zisserman Andrew, Vedaldi Andrea. **PASS: An ImageNet Replacement for Self-Supervised Pretraining Without Humans**[C]//Advances in Neural Information Processing Systems, Datasets and Benchmarks Track. 2021. [https://arxiv.org/abs/2109.13228](https://arxiv.org/abs/2109.13228).
+## 数据使用说明
 
 **数据许可证与使用范围说明：**SIMAS数据集页面标注为CC BY-NC 4.0，PASS数据集采用CC-BY并提供来源归属信息，图文梗图数据和视频数据均按照原始资源仓库的研究用途限制使用。本文只在课程项目中使用已经保存的本地数据和模型结果，不将原始有害内容作为独立数据包再次发布；若系统继续面向真实平台部署，还需要按照各数据集许可证、原始图片来源和平台隐私政策重新完成授权核验。

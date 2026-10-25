@@ -82,7 +82,6 @@ The gateway connects the MacBERT text, two-stage image, and four-modality video 
 
 The report records an approximately **88.6% reduction in reference processing time**, from about 65 to 7.4 seconds for an approximately ten-second clip, after keeping models resident and extracting features in parallel. Feature caching supports repeated requests. These are configuration-specific reference timings, not a standardized throughput benchmark.
 
-Results and timings are transcribed from the [project report](doc/project_report.md), with dataset and metric details in the [evaluation notes](doc/EVALUATION.md). No experiments were rerun for this README.
 
 ## Quick Start
 
@@ -122,8 +121,8 @@ Open **http://127.0.0.1:5173/**. Configure GPU devices and any VLM description e
 
 </details>
 
-## Scope and Acknowledgments
+## Scope
 
 This is a research and engineering prototype for Chinese-language social-media content. Video evaluation addresses PCL rather than every category of harmful video. A moderation decision is a model/policy outcome; deployment thresholds and review practices need to match the intended use.
 
-The project builds on MacBERT, DINOv3, ChineseCLIP, PCLMM, and their dependencies. See the [reference list](doc/reference.md) and preserved upstream documentation. Dataset and third-party asset use remains subject to their original licenses and terms.
+The project builds on MacBERT, DINOv3, ChineseCLIP, PCLMM, and their dependencies. Dataset and third-party asset use remains subject to their original licenses and terms.
