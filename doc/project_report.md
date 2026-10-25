@@ -1,11 +1,5 @@
 # 从文本到多模态：现代社交媒体有害与违规信息检测系统
 
-### 项目链接
-
-最终总工程GitHub： [Wangych297/MM-ContentGuard](https://github.com/Wangych297/MM-ContentGuard)
-
-机器学习文本路线 GitHub：[linsh63/text-detection-project](https://github.com/linsh63/text-detection-project)
-
 ## 摘要
 
 随着社交媒体内容形态不断变化，有害与违规信息已经从固定模板的垃圾短信，扩展到口语短句、谐音变体、隐晦攻击、广告图片、表情包和短视频等多种形式。围绕这一问题，我们设计并实现了一套面向现代社交平台的多模态有害信息检测系统，将整体任务拆分为传统垃圾文本检测、深层语义文本审核、双层图片审核和视频PCL检测四条研究路线。
