@@ -1,0 +1,74 @@
+{
+  "paths": {
+    "train": "C:\\Users\\86155\\Desktop\\大数据\\risk-image-detection-system\\data\\processed\\semantic_meme\\train.jsonl",
+    "val": "C:\\Users\\86155\\Desktop\\大数据\\risk-image-detection-system\\data\\processed\\semantic_meme\\val.jsonl",
+    "test": "C:\\Users\\86155\\Desktop\\大数据\\risk-image-detection-system\\data\\processed\\semantic_meme\\test.jsonl"
+  },
+  "counts": {
+    "train": 8159,
+    "val": 1441,
+    "test": 2400
+  },
+  "splits": {
+    "train": {
+      "count": 8159,
+      "type_labels": {
+        "dispirited": 280,
+        "general_offense": 1029,
+        "safe": 5547,
+        "sexual": 643,
+        "targeted_offense": 660
+      },
+      "binary_labels": {
+        "harmful": 2612,
+        "safe": 5547
+      },
+      "modal_pairs": {
+        "0,0": 6470,
+        "0,1": 195,
+        "1,0": 1452,
+        "1,1": 42
+      }
+    },
+    "val": {
+      "count": 1441,
+      "type_labels": {
+        "dispirited": 50,
+        "general_offense": 182,
+        "safe": 979,
+        "sexual": 113,
+        "targeted_offense": 117
+      },
+      "binary_labels": {
+        "harmful": 463,
+        "safe": 978
+      },
+      "modal_pairs": {
+        "0,0": 1133,
+        "0,1": 34,
+        "1,0": 270,
+        "1,1": 4
+      }
+    },
+    "test": {
+      "count": 2400,
+      "type_labels": {
+        "dispirited": 76,
+        "general_offense": 295,
+        "safe": 1659,
+        "sexual": 166,
+        "targeted_offense": 204
+      },
+      "binary_labels": {
+        "harmful": 741,
+        "safe": 1659
+      },
+      "modal_pairs": {
+        "0,0": 1929,
+        "0,1": 53,
+        "1,0": 401,
+        "1,1": 17
+      }
+    }
+  }
+}

@@ -1,0 +1,1588 @@
+[
+  {
+    "final_label": "safe_for_semantic_check",
+    "risk_level": "normal",
+    "risk_category": "safe",
+    "route": "send_to_semantic_model",
+    "reasons": [],
+    "image_path": "C:\\Users\\86155\\Desktop\\大数据\\risk-image-detection-system\\demo_samples\\api_flow_samples\\01_PASS_safe_final_safe_semantic_safe.jpg",
+    "detectors": {
+      "image_model": {
+        "model_label": "safe",
+        "model_confidence": 0.9463881850242615,
+        "model_risk_probability": 0.05361180705949664,
+        "risk_level": "normal",
+        "probabilities": {
+          "safe": 0.9463881850242615,
+          "sexual": 0.007452084217220545,
+          "violence": 0.009346428327262402,
+          "weapon": 0.009142107330262661,
+          "gambling": 0.009892147034406662,
+          "drug": 0.010930422693490982,
+          "regulated_goods": 0.00684861745685339
+        }
+      },
+      "ocr": {
+        "enabled": true,
+        "text": "",
+        "engine": "easyocr",
+        "languages": [
+          "ch_sim",
+          "en"
+        ],
+        "items": []
+      },
+      "translation": {
+        "enabled": false,
+        "source_text": "",
+        "translated_text": "",
+        "engine": "identity"
+      },
+      "text_risk": {
+        "enabled": true,
+        "text": "",
+        "skipped": "empty_text"
+      },
+      "rules": [],
+      "semantic_model": {
+        "enabled": true,
+        "risk_level": "normal",
+        "type_label": "safe",
+        "type_confidence": 0.888433039188385,
+        "binary_label": "safe",
+        "harmful_probability": 0.012996472418308258,
+        "type_probabilities": {
+          "safe": 0.888433039188385,
+          "targeted_offense": 0.007701578084379435,
+          "sexual": 0.022188421338796616,
+          "general_offense": 0.07738564908504486,
+          "dispirited": 0.004291218239814043
+        },
+        "binary_probabilities": {
+          "safe": 0.98700350522995,
+          "harmful": 0.012996472418308258
+        },
+        "modal_probabilities": {
+          "text_risk": 0.002749301493167877,
+          "image_risk": 0.0015273526078090072
+        },
+        "description_gate": {
+          "text_description": 0.04330350086092949,
+          "meme_description": 0.22305996716022491
+        },
+        "descriptions": {
+          "text_description": "图中未出现任何文字信息。",
+          "meme_description": "这是一张普通的风景摄影图片，展示了被积雪覆盖的针叶林山地景观，背景为晴朗的蓝色天空。图片内容为纯粹的自然景观，无任何讽刺、冒犯、低俗、广告或其他潜在风险语义。",
+          "provider": "openai_compatible_vlm",
+          "error": null
+        }
+      }
+    },
+    "status_code": 200,
+    "elapsed_seconds": 43.1
+  },
+  {
+    "final_label": "violation",
+    "risk_level": "risk",
+    "risk_category": "regulated_goods",
+    "route": "blocked_by_image_pipeline",
+    "reasons": [
+      "image_model:regulated_goods"
+    ],
+    "image_path": "C:\\Users\\86155\\Desktop\\大数据\\risk-image-detection-system\\demo_samples\\api_flow_samples\\02_SIMAS_alcohol_final_risk_stage1_regulated_goods.jpg",
+    "detectors": {
+      "image_model": {
+        "model_label": "regulated_goods",
+        "model_confidence": 0.9683660268783569,
+        "model_risk_probability": 0.9974307925440371,
+        "risk_level": "risk",
+        "probabilities": {
+          "safe": 0.0025693520437926054,
+          "sexual": 0.00492313876748085,
+          "violence": 0.007111597806215286,
+          "weapon": 0.005665349308401346,
+          "gambling": 0.0057798768393695354,
+          "drug": 0.005584802944213152,
+          "regulated_goods": 0.9683660268783569
+        }
+      },
+      "ocr": {
+        "enabled": true,
+        "text": "S《04'4\nM\nUIIII",
+        "engine": "easyocr",
+        "languages": [
+          "ch_sim",
+          "en"
+        ],
+        "items": [
+          {
+            "text": "S《04'4",
+            "confidence": 0.17153853357604995,
+            "box": [
+              [
+                297,
+                172
+              ],
+              [
+                408,
+                172
+              ],
+              [
+                408,
+                217
+              ],
+              [
+                297,
+                217
+              ]
+            ]
+          },
+          {
+            "text": "M",
+            "confidence": 0.15153229894218612,
+            "box": [
+              [
+                132,
+                189
+              ],
+              [
+                175,
+                194
+              ],
+              [
+                172,
+                220
+              ],
+              [
+                129,
+                216
+              ]
+            ]
+          },
+          {
+            "text": "UIIII",
+            "confidence": 0.11392896267041092,
+            "box": [
+              [
+                134,
+                222
+              ],
+              [
+                175,
+                227
+              ],
+              [
+                174,
+                242
+              ],
+              [
+                132,
+                238
+              ]
+            ]
+          }
+        ]
+      },
+      "translation": {
+        "enabled": false,
+        "source_text": "S《04'4\nM\nUIIII",
+        "translated_text": "S《04'4\nM\nUIIII",
+        "engine": "identity"
+      },
+      "text_risk": {
+        "text": "S《04'4\nM\nUIIII",
+        "risk_binary": "safe",
+        "risk_level": "normal",
+        "risk_probability": 0.001139729400165379,
+        "primary_category": "safe",
+        "toxic_binary": "non_toxic",
+        "camouflage_type": "none",
+        "raw_argmax": {
+          "risk_binary": "0",
+          "primary_category": "safe",
+          "toxic_binary": "0",
+          "camouflage_type": "none"
+        },
+        "probabilities": {
+          "risk_binary": {
+            "safe": 0.998860239982605,
+            "risk": 0.001139729400165379
+          },
+          "primary_category": {
+            "safe": 0.9971854090690613,
+            "spam_general": 0.002387878019362688,
+            "ad_promotion": 1.4361418834596407e-05,
+            "loan_ad": 1.3973597106087254e-06,
+            "fraud_phishing": 9.395872621098533e-05,
+            "gambling": 1.669456651143264e-06,
+            "porn_sexual": 2.8962167561985552e-06,
+            "illegal_service": 3.6322678624856053e-06,
+            "political_propaganda": 8.720714106402738e-08,
+            "toxicity_abuse": 1.3151520761311986e-05,
+            "hate_bias": 0.00014260472380556166,
+            "sex_harm": 7.507162808906287e-05,
+            "review_spam": 7.086422559865468e-10,
+            "other_risk": 7.799605373293161e-05
+          },
+          "toxic_binary": {
+            "non_toxic": 0.9996590614318848,
+            "toxic": 0.0003409369965083897
+          },
+          "camouflage_type": {
+            "none": 0.9976866245269775,
+            "unknown": 0.002311154967173934,
+            "homophone": 3.93903263784523e-07,
+            "glyph": 2.3008186644801754e-07,
+            "number": 3.4342309618295985e-07,
+            "latin": 2.7470255758998974e-07,
+            "separator": 2.9973952564432693e-07,
+            "traditional": 3.303297546608519e-07,
+            "mixed": 3.4950087979268574e-07
+          }
+        },
+        "thresholds": {
+          "suspicious": 0.4,
+          "risk": 0.7
+        },
+        "enabled": true
+      },
+      "rules": [],
+      "semantic_model": {
+        "enabled": false
+      }
+    },
+    "status_code": 200,
+    "elapsed_seconds": 0.84
+  },
+  {
+    "final_label": "violation",
+    "risk_level": "risk",
+    "risk_category": "weapon",
+    "route": "blocked_by_image_pipeline",
+    "reasons": [
+      "image_model:weapon"
+    ],
+    "image_path": "C:\\Users\\86155\\Desktop\\大数据\\risk-image-detection-system\\demo_samples\\api_flow_samples\\03_SIMAS_firearms_final_risk_stage1_weapon.jpg",
+    "detectors": {
+      "image_model": {
+        "model_label": "weapon",
+        "model_confidence": 0.96946781873703,
+        "model_risk_probability": 0.995419270824641,
+        "risk_level": "risk",
+        "probabilities": {
+          "safe": 0.004580749198794365,
+          "sexual": 0.0046018194407224655,
+          "violence": 0.005969850346446037,
+          "weapon": 0.96946781873703,
+          "gambling": 0.006273957435041666,
+          "drug": 0.0057223583571612835,
+          "regulated_goods": 0.0033834665082395077
+        }
+      },
+      "ocr": {
+        "enabled": true,
+        "text": "",
+        "engine": "easyocr",
+        "languages": [
+          "ch_sim",
+          "en"
+        ],
+        "items": []
+      },
+      "translation": {
+        "enabled": false,
+        "source_text": "",
+        "translated_text": "",
+        "engine": "identity"
+      },
+      "text_risk": {
+        "enabled": true,
+        "text": "",
+        "skipped": "empty_text"
+      },
+      "rules": [],
+      "semantic_model": {
+        "enabled": false
+      }
+    },
+    "status_code": 200,
+    "elapsed_seconds": 1.02
+  },
+  {
+    "final_label": "violation",
+    "risk_level": "risk",
+    "risk_category": "sexual",
+    "route": "blocked_by_image_pipeline",
+    "reasons": [
+      "image_model:sexual"
+    ],
+    "image_path": "C:\\Users\\86155\\Desktop\\大数据\\risk-image-detection-system\\demo_samples\\api_flow_samples\\04_ToxiCN_meme_1_final_risk_stage1_sexual.jpg",
+    "detectors": {
+      "image_model": {
+        "model_label": "sexual",
+        "model_confidence": 0.9672516584396362,
+        "model_risk_probability": 0.9974197368137538,
+        "risk_level": "risk",
+        "probabilities": {
+          "safe": 0.002580235479399562,
+          "sexual": 0.9672516584396362,
+          "violence": 0.012237951159477234,
+          "weapon": 0.0039021449629217386,
+          "gambling": 0.005232307594269514,
+          "drug": 0.005111234728246927,
+          "regulated_goods": 0.003684439929202199
+        }
+      },
+      "ocr": {
+        "enabled": true,
+        "text": "社会: 现在的年轻人不关心感情,他们\n只想着杏爰\n我真正需要的:",
+        "engine": "easyocr",
+        "languages": [
+          "ch_sim",
+          "en"
+        ],
+        "items": [
+          {
+            "text": "社会: 现在的年轻人不关心感情,他们",
+            "confidence": 0.3910626931440507,
+            "box": [
+              [
+                2,
+                20
+              ],
+              [
+                628,
+                20
+              ],
+              [
+                628,
+                74
+              ],
+              [
+                2,
+                74
+              ]
+            ]
+          },
+          {
+            "text": "只想着杏爰",
+            "confidence": 0.6203253478572215,
+            "box": [
+              [
+                4,
+                68
+              ],
+              [
+                198,
+                68
+              ],
+              [
+                198,
+                122
+              ],
+              [
+                4,
+                122
+              ]
+            ]
+          },
+          {
+            "text": "我真正需要的:",
+            "confidence": 0.9380908756414229,
+            "box": [
+              [
+                8,
+                172
+              ],
+              [
+                252,
+                172
+              ],
+              [
+                252,
+                222
+              ],
+              [
+                8,
+                222
+              ]
+            ]
+          }
+        ]
+      },
+      "translation": {
+        "enabled": false,
+        "source_text": "社会: 现在的年轻人不关心感情,他们\n只想着杏爰\n我真正需要的:",
+        "translated_text": "社会: 现在的年轻人不关心感情,他们\n只想着杏爰\n我真正需要的:",
+        "engine": "identity"
+      },
+      "text_risk": {
+        "text": "社会: 现在的年轻人不关心感情,他们\n只想着杏爰\n我真正需要的:",
+        "risk_binary": "safe",
+        "risk_level": "normal",
+        "risk_probability": 0.002932867966592312,
+        "primary_category": "safe",
+        "toxic_binary": "non_toxic",
+        "camouflage_type": "none",
+        "raw_argmax": {
+          "risk_binary": "0",
+          "primary_category": "safe",
+          "toxic_binary": "0",
+          "camouflage_type": "none"
+        },
+        "probabilities": {
+          "risk_binary": {
+            "safe": 0.9970671534538269,
+            "risk": 0.002932867966592312
+          },
+          "primary_category": {
+            "safe": 0.9973468780517578,
+            "spam_general": 0.000123403369798325,
+            "ad_promotion": 4.161460765317315e-06,
+            "loan_ad": 3.29566660184355e-07,
+            "fraud_phishing": 2.0800598576897755e-05,
+            "gambling": 9.214409715241345e-07,
+            "porn_sexual": 1.3902625823902781e-06,
+            "illegal_service": 7.987482604221441e-07,
+            "political_propaganda": 1.9116029648102995e-07,
+            "toxicity_abuse": 2.386085907346569e-05,
+            "hate_bias": 0.002429400337859988,
+            "sex_harm": 2.7408341338741593e-05,
+            "review_spam": 5.680951264963596e-10,
+            "other_risk": 2.0236895579728298e-05
+          },
+          "toxic_binary": {
+            "non_toxic": 0.9973203539848328,
+            "toxic": 0.002679617842659354
+          },
+          "camouflage_type": {
+            "none": 0.9998205304145813,
+            "unknown": 0.00017789320554584265,
+            "homophone": 2.223653297050987e-07,
+            "glyph": 1.6964595772606117e-07,
+            "number": 2.112446395585721e-07,
+            "latin": 1.9957255403824092e-07,
+            "separator": 2.141301109759297e-07,
+            "traditional": 2.3769499080117384e-07,
+            "mixed": 2.0279173895687563e-07
+          }
+        },
+        "thresholds": {
+          "suspicious": 0.4,
+          "risk": 0.7
+        },
+        "enabled": true
+      },
+      "rules": [],
+      "semantic_model": {
+        "enabled": false
+      }
+    },
+    "status_code": 200,
+    "elapsed_seconds": 1.63
+  },
+  {
+    "final_label": "spam_ad",
+    "risk_level": "risk",
+    "risk_category": "spam_general",
+    "route": "blocked_by_image_pipeline",
+    "reasons": [
+      "text:spam_general"
+    ],
+    "image_path": "C:\\Users\\86155\\Desktop\\大数据\\risk-image-detection-system\\demo_samples\\api_flow_samples\\05_ToxiCN_meme_10003_final_safe_semantic_safe.jpg",
+    "detectors": {
+      "image_model": {
+        "model_label": "safe",
+        "model_confidence": 0.9380664825439453,
+        "model_risk_probability": 0.061933488585054874,
+        "risk_level": "normal",
+        "probabilities": {
+          "safe": 0.9380664825439453,
+          "sexual": 0.0073754917830228806,
+          "violence": 0.018427662551403046,
+          "weapon": 0.008819103240966797,
+          "gambling": 0.011113944463431835,
+          "drug": 0.011312791146337986,
+          "regulated_goods": 0.00488449539989233
+        }
+      },
+      "ocr": {
+        "enabled": true,
+        "text": "不听不听  王八念经",
+        "engine": "easyocr",
+        "languages": [
+          "ch_sim",
+          "en"
+        ],
+        "items": [
+          {
+            "text": "不听不听  王八念经",
+            "confidence": 0.9231025050599594,
+            "box": [
+              [
+                14,
+                244
+              ],
+              [
+                350,
+                244
+              ],
+              [
+                350,
+                294
+              ],
+              [
+                14,
+                294
+              ]
+            ]
+          }
+        ]
+      },
+      "translation": {
+        "enabled": false,
+        "source_text": "不听不听  王八念经",
+        "translated_text": "不听不听  王八念经",
+        "engine": "identity"
+      },
+      "text_risk": {
+        "text": "不听不听  王八念经",
+        "risk_binary": "risk",
+        "risk_level": "risk",
+        "risk_probability": 0.8549053072929382,
+        "primary_category": "spam_general",
+        "toxic_binary": "non_toxic",
+        "camouflage_type": "none",
+        "raw_argmax": {
+          "risk_binary": "1",
+          "primary_category": "spam_general",
+          "toxic_binary": "0",
+          "camouflage_type": "none"
+        },
+        "probabilities": {
+          "risk_binary": {
+            "safe": 0.14509464800357819,
+            "risk": 0.8549053072929382
+          },
+          "primary_category": {
+            "safe": 0.1984470784664154,
+            "spam_general": 0.7186459898948669,
+            "ad_promotion": 0.002228047698736191,
+            "loan_ad": 0.0011646817438304424,
+            "fraud_phishing": 0.0058022490702569485,
+            "gambling": 0.0013160170055925846,
+            "porn_sexual": 0.0012253554305061698,
+            "illegal_service": 0.0020116076339036226,
+            "political_propaganda": 0.0003651304868981242,
+            "toxicity_abuse": 0.0010331604862585664,
+            "hate_bias": 0.0593298077583313,
+            "sex_harm": 0.0012044619070366025,
+            "review_spam": 2.8919077522004955e-05,
+            "other_risk": 0.007197530008852482
+          },
+          "toxic_binary": {
+            "non_toxic": 0.7465734481811523,
+            "toxic": 0.25342655181884766
+          },
+          "camouflage_type": {
+            "none": 0.9388554692268372,
+            "unknown": 0.05670151114463806,
+            "homophone": 0.0006878097774460912,
+            "glyph": 0.0005426785792224109,
+            "number": 0.0007450186531059444,
+            "latin": 0.0005499637336470187,
+            "separator": 0.0005427616415545344,
+            "traditional": 0.0007273988449014723,
+            "mixed": 0.0006472099921666086
+          }
+        },
+        "thresholds": {
+          "suspicious": 0.4,
+          "risk": 0.7
+        },
+        "enabled": true
+      },
+      "rules": [],
+      "semantic_model": {
+        "enabled": false
+      }
+    },
+    "status_code": 200,
+    "elapsed_seconds": 0.63
+  },
+  {
+    "final_label": "semantic_violation",
+    "risk_level": "risk",
+    "risk_category": "targeted_offense",
+    "route": "blocked_by_semantic_model",
+    "reasons": [
+      "semantic_model:targeted_offense"
+    ],
+    "image_path": "C:\\Users\\86155\\Desktop\\大数据\\risk-image-detection-system\\demo_samples\\api_flow_samples\\06_ToxiCN_10144_targeted_final_safe_semantic_safe.jpg",
+    "detectors": {
+      "image_model": {
+        "model_label": "safe",
+        "model_confidence": 0.9501391053199768,
+        "model_risk_probability": 0.0498609310016036,
+        "risk_level": "normal",
+        "probabilities": {
+          "safe": 0.9501391053199768,
+          "sexual": 0.006616631988435984,
+          "violence": 0.012857569381594658,
+          "weapon": 0.009917600080370903,
+          "gambling": 0.006738040596246719,
+          "drug": 0.008968982845544815,
+          "regulated_goods": 0.004762106109410524
+        }
+      },
+      "ocr": {
+        "enabled": true,
+        "text": "我不单指美帝,我指的是在座的各位\n都是辣鸡",
+        "engine": "easyocr",
+        "languages": [
+          "ch_sim",
+          "en"
+        ],
+        "items": [
+          {
+            "text": "我不单指美帝,我指的是在座的各位",
+            "confidence": 0.7213968799123825,
+            "box": [
+              [
+                6,
+                315
+              ],
+              [
+                496,
+                315
+              ],
+              [
+                496,
+                367
+              ],
+              [
+                6,
+                367
+              ]
+            ]
+          },
+          {
+            "text": "都是辣鸡",
+            "confidence": 0.9818853139877319,
+            "box": [
+              [
+                6,
+                360
+              ],
+              [
+                138,
+                360
+              ],
+              [
+                138,
+                408
+              ],
+              [
+                6,
+                408
+              ]
+            ]
+          }
+        ]
+      },
+      "translation": {
+        "enabled": false,
+        "source_text": "我不单指美帝,我指的是在座的各位\n都是辣鸡",
+        "translated_text": "我不单指美帝,我指的是在座的各位\n都是辣鸡",
+        "engine": "identity"
+      },
+      "text_risk": {
+        "text": "我不单指美帝,我指的是在座的各位\n都是辣鸡",
+        "risk_binary": "safe",
+        "risk_level": "normal",
+        "risk_probability": 0.00016976553888525814,
+        "primary_category": "safe",
+        "toxic_binary": "non_toxic",
+        "camouflage_type": "none",
+        "raw_argmax": {
+          "risk_binary": "0",
+          "primary_category": "safe",
+          "toxic_binary": "0",
+          "camouflage_type": "none"
+        },
+        "probabilities": {
+          "risk_binary": {
+            "safe": 0.9998302459716797,
+            "risk": 0.00016976553888525814
+          },
+          "primary_category": {
+            "safe": 0.9998306035995483,
+            "spam_general": 7.874139669183933e-07,
+            "ad_promotion": 9.661675015593119e-09,
+            "loan_ad": 1.3344178539931306e-10,
+            "fraud_phishing": 1.0520191295881887e-07,
+            "gambling": 6.377234851306923e-10,
+            "porn_sexual": 9.832162861656002e-10,
+            "illegal_service": 5.767200605966138e-10,
+            "political_propaganda": 5.381887643873817e-11,
+            "toxicity_abuse": 1.5600650726810272e-07,
+            "hate_bias": 0.00016789196524769068,
+            "sex_harm": 1.829749436410566e-07,
+            "review_spam": 3.2503377397072927e-15,
+            "other_risk": 7.659480161237298e-08
+          },
+          "toxic_binary": {
+            "non_toxic": 0.9997803568840027,
+            "toxic": 0.0002196746354456991
+          },
+          "camouflage_type": {
+            "none": 0.9999985694885254,
+            "unknown": 1.4544660871251835e-06,
+            "homophone": 4.3132081239960485e-11,
+            "glyph": 3.119251038019577e-11,
+            "number": 3.9228786885558975e-11,
+            "latin": 3.7545633269076006e-11,
+            "separator": 5.157667695709911e-11,
+            "traditional": 5.77457318073904e-11,
+            "mixed": 3.8133687180197384e-11
+          }
+        },
+        "thresholds": {
+          "suspicious": 0.4,
+          "risk": 0.7
+        },
+        "enabled": true
+      },
+      "rules": [],
+      "semantic_model": {
+        "enabled": true,
+        "risk_level": "risk",
+        "type_label": "targeted_offense",
+        "type_confidence": 0.8694482445716858,
+        "binary_label": "harmful",
+        "harmful_probability": 0.9719762802124023,
+        "type_probabilities": {
+          "safe": 0.09116023778915405,
+          "targeted_offense": 0.8694482445716858,
+          "sexual": 0.0009935827692970634,
+          "general_offense": 0.035874318331480026,
+          "dispirited": 0.0025236967485398054
+        },
+        "binary_probabilities": {
+          "safe": 0.028023725375533104,
+          "harmful": 0.9719762802124023
+        },
+        "modal_probabilities": {
+          "text_risk": 0.957821786403656,
+          "image_risk": 0.04975607246160507
+        },
+        "description_gate": {
+          "text_description": 0.18191754817962646,
+          "meme_description": 0.09041550010442734
+        },
+        "descriptions": {
+          "text_description": "文字内容为“我不单指美帝，我指的是在座的各位都是辣鸡”。语气具有极强的挑衅性和攻击性，将“美帝”与“在座的各位”并列作为被鄙夷的对象，“辣鸡”为“垃圾”的谐音，表达对受众的群体性贬低与蔑视。",
+          "meme_description": "该图片使用了典型的中国革命战争题材美术风格（类似版画的宣传画，展现军人形象），通过严肃、宏大的历史视觉符号与网络粗俗语（“辣鸡”）形成强烈的反差萌，常被用于网络论坛或社交媒体中进行群体性嘲讽、宣泄不满或作为攻击性回复，具有较强的冒犯性和煽动情绪的风险。",
+          "provider": "openai_compatible_vlm",
+          "error": null
+        }
+      }
+    },
+    "status_code": 200,
+    "elapsed_seconds": 5.01
+  },
+  {
+    "final_label": "violation",
+    "risk_level": "risk",
+    "risk_category": "toxicity_abuse",
+    "route": "blocked_by_image_pipeline",
+    "reasons": [
+      "image_model:violence",
+      "text:toxicity_abuse"
+    ],
+    "image_path": "C:\\Users\\86155\\Desktop\\大数据\\risk-image-detection-system\\demo_samples\\api_flow_samples\\07_ToxiCN_10768_general_final_risk_stage1_violence.jpg",
+    "detectors": {
+      "image_model": {
+        "model_label": "violence",
+        "model_confidence": 0.7233613133430481,
+        "model_risk_probability": 0.8149052541702986,
+        "risk_level": "risk",
+        "probabilities": {
+          "safe": 0.1850947141647339,
+          "sexual": 0.02545260637998581,
+          "violence": 0.7233613133430481,
+          "weapon": 0.010924523696303368,
+          "gambling": 0.020145196467638016,
+          "drug": 0.02256271056830883,
+          "regulated_goods": 0.012458903715014458
+        }
+      },
+      "ocr": {
+        "enabled": true,
+        "text": "要说傻逼\n谁能比过你",
+        "engine": "easyocr",
+        "languages": [
+          "ch_sim",
+          "en"
+        ],
+        "items": [
+          {
+            "text": "要说傻逼",
+            "confidence": 0.5046307444572449,
+            "box": [
+              [
+                87,
+                409
+              ],
+              [
+                361,
+                409
+              ],
+              [
+                361,
+                493
+              ],
+              [
+                87,
+                493
+              ]
+            ]
+          },
+          {
+            "text": "谁能比过你",
+            "confidence": 0.6667516848410058,
+            "box": [
+              [
+                82,
+                486
+              ],
+              [
+                431,
+                486
+              ],
+              [
+                431,
+                559
+              ],
+              [
+                82,
+                559
+              ]
+            ]
+          }
+        ]
+      },
+      "translation": {
+        "enabled": false,
+        "source_text": "要说傻逼\n谁能比过你",
+        "translated_text": "要说傻逼\n谁能比过你",
+        "engine": "identity"
+      },
+      "text_risk": {
+        "text": "要说傻逼\n谁能比过你",
+        "risk_binary": "risk",
+        "risk_level": "risk",
+        "risk_probability": 0.994939923286438,
+        "primary_category": "toxicity_abuse",
+        "toxic_binary": "toxic",
+        "camouflage_type": "none",
+        "raw_argmax": {
+          "risk_binary": "1",
+          "primary_category": "toxicity_abuse",
+          "toxic_binary": "1",
+          "camouflage_type": "none"
+        },
+        "probabilities": {
+          "risk_binary": {
+            "safe": 0.005060142837464809,
+            "risk": 0.994939923286438
+          },
+          "primary_category": {
+            "safe": 0.0016276295064017177,
+            "spam_general": 1.119834359997185e-05,
+            "ad_promotion": 3.5716479032998905e-05,
+            "loan_ad": 1.615138671695604e-06,
+            "fraud_phishing": 4.8966958274831995e-05,
+            "gambling": 5.115446765557863e-05,
+            "porn_sexual": 6.386604945873842e-05,
+            "illegal_service": 2.5251240003854036e-05,
+            "political_propaganda": 4.7216799430316314e-05,
+            "toxicity_abuse": 0.9914331436157227,
+            "hate_bias": 0.006515284534543753,
+            "sex_harm": 0.00010468484106240794,
+            "review_spam": 5.078044296169537e-07,
+            "other_risk": 3.365347220096737e-05
+          },
+          "toxic_binary": {
+            "non_toxic": 0.0022304209414869547,
+            "toxic": 0.9977695941925049
+          },
+          "camouflage_type": {
+            "none": 0.9020270705223083,
+            "unknown": 0.014023207128047943,
+            "homophone": 0.010209191590547562,
+            "glyph": 0.012544813565909863,
+            "number": 0.006604187190532684,
+            "latin": 0.012831825762987137,
+            "separator": 0.017840873450040817,
+            "traditional": 0.012703150510787964,
+            "mixed": 0.011215714737772942
+          }
+        },
+        "thresholds": {
+          "suspicious": 0.4,
+          "risk": 0.7
+        },
+        "enabled": true
+      },
+      "rules": [],
+      "semantic_model": {
+        "enabled": false
+      }
+    },
+    "status_code": 200,
+    "elapsed_seconds": 1.08
+  },
+  {
+    "final_label": "semantic_violation",
+    "risk_level": "risk",
+    "risk_category": "general_offense",
+    "route": "blocked_by_semantic_model",
+    "reasons": [
+      "semantic_model:general_offense"
+    ],
+    "image_path": "C:\\Users\\86155\\Desktop\\大数据\\risk-image-detection-system\\demo_samples\\api_flow_samples\\08_ToxiCN_11273_general_final_risk_stage2_general_offense.jpg",
+    "detectors": {
+      "image_model": {
+        "model_label": "safe",
+        "model_confidence": 0.4481034278869629,
+        "model_risk_probability": 0.5518966689705849,
+        "risk_level": "normal",
+        "probabilities": {
+          "safe": 0.4481034278869629,
+          "sexual": 0.02835078351199627,
+          "violence": 0.43994495272636414,
+          "weapon": 0.015864085406064987,
+          "gambling": 0.02074236236512661,
+          "drug": 0.027610165998339653,
+          "regulated_goods": 0.019384318962693214
+        }
+      },
+      "ocr": {
+        "enabled": true,
+        "text": "你这样会被diss的我跟你讲",
+        "engine": "easyocr",
+        "languages": [
+          "ch_sim",
+          "en"
+        ],
+        "items": [
+          {
+            "text": "你这样会被diss的我跟你讲",
+            "confidence": 0.8824586366134888,
+            "box": [
+              [
+                20,
+                234
+              ],
+              [
+                292,
+                234
+              ],
+              [
+                292,
+                264
+              ],
+              [
+                20,
+                264
+              ]
+            ]
+          }
+        ]
+      },
+      "translation": {
+        "enabled": false,
+        "source_text": "你这样会被diss的我跟你讲",
+        "translated_text": "你这样会被diss的我跟你讲",
+        "engine": "identity"
+      },
+      "text_risk": {
+        "text": "你这样会被diss的我跟你讲",
+        "risk_binary": "safe",
+        "risk_level": "normal",
+        "risk_probability": 1.3676176422450226e-05,
+        "primary_category": "safe",
+        "toxic_binary": "non_toxic",
+        "camouflage_type": "none",
+        "raw_argmax": {
+          "risk_binary": "0",
+          "primary_category": "safe",
+          "toxic_binary": "0",
+          "camouflage_type": "none"
+        },
+        "probabilities": {
+          "risk_binary": {
+            "safe": 0.9999862909317017,
+            "risk": 1.3676176422450226e-05
+          },
+          "primary_category": {
+            "safe": 0.9999868869781494,
+            "spam_general": 8.19270667307137e-07,
+            "ad_promotion": 4.568728950715695e-09,
+            "loan_ad": 3.514305860208289e-11,
+            "fraud_phishing": 5.306658934500774e-08,
+            "gambling": 1.0989901350066944e-10,
+            "porn_sexual": 2.0602293482330225e-10,
+            "illegal_service": 2.3420115846661815e-10,
+            "political_propaganda": 3.75149694295529e-12,
+            "toxicity_abuse": 2.8256925688197043e-08,
+            "hate_bias": 1.21130306069972e-05,
+            "sex_harm": 1.41221860872065e-07,
+            "review_spam": 1.5944785103642385e-16,
+            "other_risk": 3.172064566570043e-08
+          },
+          "toxic_binary": {
+            "non_toxic": 0.9999768733978271,
+            "toxic": 2.312339529453311e-05
+          },
+          "camouflage_type": {
+            "none": 0.9999978542327881,
+            "unknown": 2.1156931779842125e-06,
+            "homophone": 7.945823686517084e-12,
+            "glyph": 4.719990457507928e-12,
+            "number": 6.9634107507932086e-12,
+            "latin": 5.531421241183887e-12,
+            "separator": 8.525405208181791e-12,
+            "traditional": 1.0162475895525436e-11,
+            "mixed": 6.895608216372917e-12
+          }
+        },
+        "thresholds": {
+          "suspicious": 0.4,
+          "risk": 0.7
+        },
+        "enabled": true
+      },
+      "rules": [],
+      "semantic_model": {
+        "enabled": true,
+        "risk_level": "risk",
+        "type_label": "general_offense",
+        "type_confidence": 0.728190541267395,
+        "binary_label": "harmful",
+        "harmful_probability": 0.8603323698043823,
+        "type_probabilities": {
+          "safe": 0.2386249452829361,
+          "targeted_offense": 0.01097399927675724,
+          "sexual": 0.018107188865542412,
+          "general_offense": 0.728190541267395,
+          "dispirited": 0.004103361628949642
+        },
+        "binary_probabilities": {
+          "safe": 0.1396676003932953,
+          "harmful": 0.8603323698043823
+        },
+        "modal_probabilities": {
+          "text_risk": 0.8247995376586914,
+          "image_risk": 0.05391732230782509
+        },
+        "description_gate": {
+          "text_description": 0.34626197814941406,
+          "meme_description": 0.11758598685264587
+        },
+        "descriptions": {
+          "text_description": "文字内容为“你这样会被diss的我跟你讲”，语气带有口语化的劝诫或调侃，警告对方的行为可能会招致批评、指责或反击。",
+          "meme_description": "该图为经典的熊猫头表情包，使用一张带有戏谑、不屑表情的人脸剪影贴在熊猫轮廓上，手指指向一侧。常用于在网络讨论中表示对他人观点或行为的嘲讽、提醒或进行轻微的言语攻击/压制。",
+          "provider": "openai_compatible_vlm",
+          "error": null
+        }
+      }
+    },
+    "status_code": 200,
+    "elapsed_seconds": 3.71
+  },
+  {
+    "final_label": "semantic_violation",
+    "risk_level": "risk",
+    "risk_category": "sexual",
+    "route": "blocked_by_semantic_model",
+    "reasons": [
+      "semantic_model:sexual"
+    ],
+    "image_path": "C:\\Users\\86155\\Desktop\\大数据\\risk-image-detection-system\\demo_samples\\api_flow_samples\\09_ToxiCN_79_sexual_final_safe_stage2_harmful_below_threshold.jpg",
+    "detectors": {
+      "image_model": {
+        "model_label": "violence",
+        "model_confidence": 0.514349639415741,
+        "model_risk_probability": 0.599129200913012,
+        "risk_level": "suspicious",
+        "probabilities": {
+          "safe": 0.40087080001831055,
+          "sexual": 0.024021673947572708,
+          "violence": 0.514349639415741,
+          "weapon": 0.01569165475666523,
+          "gambling": 0.014466042630374432,
+          "drug": 0.019740790128707886,
+          "regulated_goods": 0.010859400033950806
+        }
+      },
+      "ocr": {
+        "enabled": true,
+        "text": "你今天忘\n记手冲了\n闭嘴\n我戒了",
+        "engine": "easyocr",
+        "languages": [
+          "ch_sim",
+          "en"
+        ],
+        "items": [
+          {
+            "text": "你今天忘",
+            "confidence": 0.8575275540351868,
+            "box": [
+              [
+                329,
+                25
+              ],
+              [
+                467,
+                25
+              ],
+              [
+                467,
+                67
+              ],
+              [
+                329,
+                67
+              ]
+            ]
+          },
+          {
+            "text": "记手冲了",
+            "confidence": 0.7482293844223022,
+            "box": [
+              [
+                329,
+                67
+              ],
+              [
+                465,
+                67
+              ],
+              [
+                465,
+                111
+              ],
+              [
+                329,
+                111
+              ]
+            ]
+          },
+          {
+            "text": "闭嘴",
+            "confidence": 0.712445360814088,
+            "box": [
+              [
+                27,
+                265
+              ],
+              [
+                99,
+                265
+              ],
+              [
+                99,
+                307
+              ],
+              [
+                27,
+                307
+              ]
+            ]
+          },
+          {
+            "text": "我戒了",
+            "confidence": 0.8826652439279603,
+            "box": [
+              [
+                27,
+                306
+              ],
+              [
+                126,
+                306
+              ],
+              [
+                126,
+                348
+              ],
+              [
+                27,
+                348
+              ]
+            ]
+          }
+        ]
+      },
+      "translation": {
+        "enabled": false,
+        "source_text": "你今天忘\n记手冲了\n闭嘴\n我戒了",
+        "translated_text": "你今天忘\n记手冲了\n闭嘴\n我戒了",
+        "engine": "identity"
+      },
+      "text_risk": {
+        "text": "你今天忘\n记手冲了\n闭嘴\n我戒了",
+        "risk_binary": "safe",
+        "risk_level": "normal",
+        "risk_probability": 1.7576927348272875e-05,
+        "primary_category": "safe",
+        "toxic_binary": "non_toxic",
+        "camouflage_type": "none",
+        "raw_argmax": {
+          "risk_binary": "0",
+          "primary_category": "safe",
+          "toxic_binary": "0",
+          "camouflage_type": "none"
+        },
+        "probabilities": {
+          "risk_binary": {
+            "safe": 0.999982476234436,
+            "risk": 1.7576927348272875e-05
+          },
+          "primary_category": {
+            "safe": 0.999982476234436,
+            "spam_general": 6.946798976059654e-07,
+            "ad_promotion": 4.1415773033293135e-09,
+            "loan_ad": 3.234417594866201e-11,
+            "fraud_phishing": 4.604368442073792e-08,
+            "gambling": 1.06953584877445e-10,
+            "porn_sexual": 1.998945176051592e-10,
+            "illegal_service": 2.024754391927175e-10,
+            "political_propaganda": 4.189207574584186e-12,
+            "toxicity_abuse": 2.8701672150077684e-08,
+            "hate_bias": 1.674223312875256e-05,
+            "sex_harm": 1.2068365151662874e-07,
+            "review_spam": 1.6014694438548426e-16,
+            "other_risk": 2.9898632902813915e-08
+          },
+          "toxic_binary": {
+            "non_toxic": 0.9999691247940063,
+            "toxic": 3.091603139182553e-05
+          },
+          "camouflage_type": {
+            "none": 0.9999983310699463,
+            "unknown": 1.6485264495713636e-06,
+            "homophone": 7.303248283907493e-12,
+            "glyph": 4.387048016529782e-12,
+            "number": 6.336368062187514e-12,
+            "latin": 5.146166479064185e-12,
+            "separator": 7.914548356968698e-12,
+            "traditional": 9.533120820526264e-12,
+            "mixed": 6.276023103990447e-12
+          }
+        },
+        "thresholds": {
+          "suspicious": 0.4,
+          "risk": 0.7
+        },
+        "enabled": true
+      },
+      "rules": [],
+      "semantic_model": {
+        "enabled": true,
+        "risk_level": "risk",
+        "type_label": "sexual",
+        "type_confidence": 0.9953610301017761,
+        "binary_label": "harmful",
+        "harmful_probability": 0.9998350143432617,
+        "type_probabilities": {
+          "safe": 0.004613759461790323,
+          "targeted_offense": 6.846174528618576e-06,
+          "sexual": 0.9953610301017761,
+          "general_offense": 1.3909343579143751e-05,
+          "dispirited": 4.501410785451299e-06
+        },
+        "binary_probabilities": {
+          "safe": 0.00016501257778145373,
+          "harmful": 0.9998350143432617
+        },
+        "modal_probabilities": {
+          "text_risk": 0.9994007349014282,
+          "image_risk": 0.0007947887061163783
+        },
+        "description_gate": {
+          "text_description": 0.27438127994537354,
+          "meme_description": 0.11263755708932877
+        },
+        "descriptions": {
+          "text_description": "图片包含一段对话，大脑形象询问主角“你今天忘记手冲了”，主角回答“闭嘴，我戒了”。文字直白地描述了自慰（手冲）这一性行为及其戒除的意图。",
+          "meme_description": "该图为经典网络四格漫画变体，通过“大脑与本体的对话”展现人在深夜面临内心欲望诱惑时的挣扎过程。画面通过主角最终在深夜拿起手机（暗示重新开始性行为或观看色情内容）的行为，讽刺了人们在戒除某种成瘾习惯（尤其是自慰）时的意志薄弱和反复心理。",
+          "provider": "openai_compatible_vlm",
+          "error": null
+        }
+      }
+    },
+    "status_code": 200,
+    "elapsed_seconds": 7.41
+  },
+  {
+    "final_label": "violation",
+    "risk_level": "risk",
+    "risk_category": "hate_bias",
+    "route": "blocked_by_image_pipeline",
+    "reasons": [
+      "text:hate_bias"
+    ],
+    "image_path": "C:\\Users\\86155\\Desktop\\大数据\\risk-image-detection-system\\demo_samples\\api_flow_samples\\10_ToxiCN_13840_general_final_risk_stage2_general_offense.jpg",
+    "detectors": {
+      "image_model": {
+        "model_label": "safe",
+        "model_confidence": 0.5081862211227417,
+        "model_risk_probability": 0.49181375466287136,
+        "risk_level": "normal",
+        "probabilities": {
+          "safe": 0.5081862211227417,
+          "sexual": 0.3362759053707123,
+          "violence": 0.07870426774024963,
+          "weapon": 0.018684353679418564,
+          "gambling": 0.021741313859820366,
+          "drug": 0.022357676178216934,
+          "regulated_goods": 0.014050237834453583
+        }
+      },
+      "ocr": {
+        "enabled": true,
+        "text": "像这介臭傻遏",
+        "engine": "easyocr",
+        "languages": [
+          "ch_sim",
+          "en"
+        ],
+        "items": [
+          {
+            "text": "像这介臭傻遏",
+            "confidence": 0.009233309309155866,
+            "box": [
+              [
+                38,
+                368
+              ],
+              [
+                404,
+                368
+              ],
+              [
+                404,
+                436
+              ],
+              [
+                38,
+                436
+              ]
+            ]
+          }
+        ]
+      },
+      "translation": {
+        "enabled": false,
+        "source_text": "像这介臭傻遏",
+        "translated_text": "像这介臭傻遏",
+        "engine": "identity"
+      },
+      "text_risk": {
+        "text": "像这介臭傻遏",
+        "risk_binary": "risk",
+        "risk_level": "risk",
+        "risk_probability": 0.9994382262229919,
+        "primary_category": "hate_bias",
+        "toxic_binary": "toxic",
+        "camouflage_type": "none",
+        "raw_argmax": {
+          "risk_binary": "1",
+          "primary_category": "hate_bias",
+          "toxic_binary": "1",
+          "camouflage_type": "none"
+        },
+        "probabilities": {
+          "risk_binary": {
+            "safe": 0.0005617292481474578,
+            "risk": 0.9994382262229919
+          },
+          "primary_category": {
+            "safe": 0.0004665853048209101,
+            "spam_general": 4.2689184738264885e-06,
+            "ad_promotion": 6.293056031836386e-08,
+            "loan_ad": 3.2694083551554343e-10,
+            "fraud_phishing": 1.7141917396656936e-07,
+            "gambling": 1.2031073026719241e-08,
+            "porn_sexual": 1.9941639450848925e-09,
+            "illegal_service": 9.560933156294027e-10,
+            "political_propaganda": 4.6112030860356867e-10,
+            "toxicity_abuse": 3.2102880140882917e-06,
+            "hate_bias": 0.9995251893997192,
+            "sex_harm": 3.6135239156465104e-07,
+            "review_spam": 2.57723069231261e-13,
+            "other_risk": 5.386237944549066e-08
+          },
+          "toxic_binary": {
+            "non_toxic": 0.00038374497671611607,
+            "toxic": 0.999616265296936
+          },
+          "camouflage_type": {
+            "none": 0.9405673742294312,
+            "unknown": 0.0593620128929615,
+            "homophone": 1.4687921066069975e-05,
+            "glyph": 8.637910468678456e-06,
+            "number": 6.875108738313429e-06,
+            "latin": 1.0220042895525694e-05,
+            "separator": 1.2902254638902377e-05,
+            "traditional": 7.262316557898885e-06,
+            "mixed": 1.0066183676826768e-05
+          }
+        },
+        "thresholds": {
+          "suspicious": 0.4,
+          "risk": 0.7
+        },
+        "enabled": true
+      },
+      "rules": [],
+      "semantic_model": {
+        "enabled": false
+      }
+    },
+    "status_code": 200,
+    "elapsed_seconds": 0.96
+  },
+  {
+    "final_label": "violation",
+    "risk_level": "risk",
+    "risk_category": "toxicity_abuse",
+    "route": "blocked_by_image_pipeline",
+    "reasons": [
+      "text:toxicity_abuse"
+    ],
+    "image_path": "C:\\Users\\86155\\Desktop\\大数据\\risk-image-detection-system\\demo_samples\\api_flow_samples\\11_ToxiCN_10525_general_final_safe_semantic_safe.jpg",
+    "detectors": {
+      "image_model": {
+        "model_label": "safe",
+        "model_confidence": 0.9439113140106201,
+        "model_risk_probability": 0.056088609620928764,
+        "risk_level": "normal",
+        "probabilities": {
+          "safe": 0.9439113140106201,
+          "sexual": 0.010663452558219433,
+          "violence": 0.013439759612083435,
+          "weapon": 0.008580413646996021,
+          "gambling": 0.00933882873505354,
+          "drug": 0.007940748706459999,
+          "regulated_goods": 0.006125406362116337
+        }
+      },
+      "ocr": {
+        "enabled": true,
+        "text": "小样! -jue踢飞你!",
+        "engine": "easyocr",
+        "languages": [
+          "ch_sim",
+          "en"
+        ],
+        "items": [
+          {
+            "text": "小样! -jue踢飞你!",
+            "confidence": 0.479066869658663,
+            "box": [
+              [
+                102,
+                553
+              ],
+              [
+                601,
+                553
+              ],
+              [
+                601,
+                631
+              ],
+              [
+                102,
+                631
+              ]
+            ]
+          }
+        ]
+      },
+      "translation": {
+        "enabled": false,
+        "source_text": "小样! -jue踢飞你!",
+        "translated_text": "小样! -jue踢飞你!",
+        "engine": "identity"
+      },
+      "text_risk": {
+        "text": "小样! -jue踢飞你!",
+        "risk_binary": "risk",
+        "risk_level": "risk",
+        "risk_probability": 0.9707123637199402,
+        "primary_category": "toxicity_abuse",
+        "toxic_binary": "toxic",
+        "camouflage_type": "none",
+        "raw_argmax": {
+          "risk_binary": "1",
+          "primary_category": "toxicity_abuse",
+          "toxic_binary": "1",
+          "camouflage_type": "none"
+        },
+        "probabilities": {
+          "risk_binary": {
+            "safe": 0.029287641867995262,
+            "risk": 0.9707123637199402
+          },
+          "primary_category": {
+            "safe": 0.038313619792461395,
+            "spam_general": 0.004228575620800257,
+            "ad_promotion": 0.002406249288469553,
+            "loan_ad": 0.0004282717709429562,
+            "fraud_phishing": 0.00347442296333611,
+            "gambling": 0.0036641545593738556,
+            "porn_sexual": 0.003316860878840089,
+            "illegal_service": 0.0015259748324751854,
+            "political_propaganda": 0.003108651377260685,
+            "toxicity_abuse": 0.47506266832351685,
+            "hate_bias": 0.4560348093509674,
+            "sex_harm": 0.004942162428051233,
+            "review_spam": 0.00024088630743790418,
+            "other_risk": 0.0032527532894164324
+          },
+          "toxic_binary": {
+            "non_toxic": 0.01892312429845333,
+            "toxic": 0.9810769557952881
+          },
+          "camouflage_type": {
+            "none": 0.6926737427711487,
+            "unknown": 0.07445427775382996,
+            "homophone": 0.034063149243593216,
+            "glyph": 0.032411929219961166,
+            "number": 0.02300916612148285,
+            "latin": 0.03558345511555672,
+            "separator": 0.04016786441206932,
+            "traditional": 0.0330568365752697,
+            "mixed": 0.03457944467663765
+          }
+        },
+        "thresholds": {
+          "suspicious": 0.4,
+          "risk": 0.7
+        },
+        "enabled": true
+      },
+      "rules": [],
+      "semantic_model": {
+        "enabled": false
+      }
+    },
+    "status_code": 200,
+    "elapsed_seconds": 1.37
+  }
+]

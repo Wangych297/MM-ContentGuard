@@ -1,0 +1,67 @@
+﻿project:
+  seed: 42
+
+data:
+  source_root: datasets/ToxiCN_MM
+  image_dir: datasets/ToxiCN_MM/data/meme
+  train_json: datasets/ToxiCN_MM/data/train_data_discription_2.0.json
+  test_json: datasets/ToxiCN_MM/data/test_data_discription_2.0.json
+  output_dir: data/processed/semantic_meme
+  train_file: data/processed/semantic_meme/train.jsonl
+  val_file: data/processed/semantic_meme/val.jsonl
+  test_file: data/processed/semantic_meme/test.jsonl
+  val_ratio: 0.15
+  skip_missing_images: true
+
+model:
+  name: .cache/huggingface/hub/models--OFA-Sys--chinese-clip-vit-large-patch14/snapshots/660941af70c6ff89ce658a1735404c0f3e536c38
+  processor_name: .cache/huggingface/hub/models--OFA-Sys--chinese-clip-vit-large-patch14/snapshots/660941af70c6ff89ce658a1735404c0f3e536c38
+  max_length: 64
+  use_descriptions: true
+  description_dropout: 0.3
+  fusion_hidden_dim: 512
+  dropout: 0.3
+
+train:
+  output_dir: checkpoints/semantic_model_focal_binary
+  epochs: 8
+  batch_size: 4
+  num_workers: 0
+  lr_encoder: 0.000003
+  lr_head: 0.0002
+  weight_decay: 0.06
+  freeze_encoder_epochs: 3
+  early_stop_patience: 3
+  use_amp: true
+  weighted_sampler: false
+  class_weight_loss: true
+  type_loss_kind: class_balanced_focal
+  type_focal_beta: 0.999
+  type_focal_gamma: 1.5
+  binary_loss_kind: weighted_cross_entropy
+  binary_class_weight_loss: true
+  log_every: 20
+  monitor_metric: binary_macro_f1
+  type_loss_weight: 1.2
+  binary_loss_weight: 1.0
+  modal_loss_weight: 0.05
+
+inference:
+  checkpoint_path: checkpoints/semantic_model_focal_binary/best.pt
+  risk_threshold: 0.65
+
+description_provider:
+  type: openai_compatible
+  enabled: true
+  # Fill these from the local runtime when the VLM vendor is chosen.
+  endpoint_url: ""
+  endpoint_url_env: VLM_ENDPOINT_URL
+  base_url: ""
+  base_url_env: VLM_BASE_URL
+  api_key_env: VLM_API_KEY
+  model_env: VLM_MODEL
+  timeout_seconds: 45
+  max_tokens: 320
+  temperature: 0.1
+
+

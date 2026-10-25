@@ -1,0 +1,100 @@
+﻿project:
+  name: risk-image-detection-system-strong
+  seed: 42
+
+data:
+  simas_root: datasets/simas
+  pass_safe_root: datasets/safe_extra/pass_1500/images
+  manifest_path: data/processed/image_manifest.jsonl
+  split_dir: data/processed/splits
+  train_file: data/processed/splits/image_train.jsonl
+  val_file: data/processed/splits/image_val.jsonl
+  test_file: data/processed/splits/image_test.jsonl
+  val_ratio: 0.15
+  test_ratio: 0.15
+  allowed_extensions: [".jpg", ".jpeg", ".png", ".webp", ".bmp"]
+
+model:
+  backend: torchvision
+  backbone_name: convnext_base
+  pretrained: true
+  image_size: 224
+  dropout: 0.3
+
+train:
+  output_dir: checkpoints/image_model_strong
+  epochs: 40
+  batch_size: 8
+  num_workers: 0
+  freeze_backbone_epochs: 1
+  lr_head: 0.0005
+  lr_backbone: 0.00002
+  weight_decay: 0.08
+  use_amp: true
+  weighted_sampler: false
+  sampler_weight_power: 0.5
+  class_weight_loss: true
+  class_weight_power: 0.5
+  label_smoothing: 0.05
+  mixup_prob: 0.45
+  mixup_alpha: 0.2
+  cutmix_alpha: 1.0
+  cutmix_prob: 0.5
+  warmup_epochs: 3
+  min_lr_ratio: 0.05
+  max_grad_norm: 1.0
+  early_stop_patience: 100
+  log_every: 20
+  augmentation:
+    random_resized_crop_scale: [0.55, 1.0]
+    hflip: 0.5
+    randaugment: true
+    randaugment_num_ops: 2
+    randaugment_magnitude: 7
+    color_jitter: [0.25, 0.25, 0.2, 0.03]
+    random_erasing: 0.25
+
+inference:
+  checkpoint_path: checkpoints/image_model_strong/best.pt
+  model_risk_threshold: 0.65
+  suspicious_model_threshold: 0.45
+  text_risk_threshold: 0.7
+  text_suspicious_threshold: 0.4
+
+ocr:
+  enabled: true
+  engine: easyocr
+  languages: chi_sim+eng
+
+text_api:
+  enabled: true
+  url: http://127.0.0.1:8000/text/check
+  timeout_seconds: 8
+
+semantic_model:
+  enabled: false
+  config: configs/semantic_meme_focal_binary.yaml
+  checkpoint_path: checkpoints/semantic_model_focal_binary/best.pt
+  run_when_stage1_safe: true
+  use_descriptions: true
+
+rules:
+  enabled: true
+  qrcode_enabled: true
+  sensitive_words:
+    - gambling
+    - casino
+    - betting
+    - loan
+    - payday
+    - whatsapp
+    - telegram
+    - wechat
+    - qq
+    - escort
+    - porn
+    - drug
+    - pills
+    - gun
+    - weapon
+

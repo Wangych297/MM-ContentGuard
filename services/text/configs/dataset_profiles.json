@@ -1,0 +1,70 @@
+{
+  "quick20k": {
+    "description": "Default laptop-friendly run. Keeps training around 20k records and leaves labeled dev/test splits for checks.",
+    "random_seed": 42,
+    "max_text_chars": 512,
+    "splits": {
+      "train": {
+        "spam_message": 8000,
+        "ast": 4000,
+        "fbs": 2500,
+        "cold": 2500,
+        "toxicn": 1500,
+        "chinese_offensive": 1500
+      },
+      "dev": {
+        "spam_message": 1000,
+        "ast": 800,
+        "fbs": 500,
+        "cold": 500,
+        "toxicn": 300,
+        "chinese_offensive": 300
+      },
+      "test": {
+        "spam_message": 1000,
+        "ast": 800,
+        "fbs": 500,
+        "cold": 500,
+        "toxicn": 300,
+        "chinese_offensive": 300
+      }
+    },
+    "balanced_binary_sources": ["spam_message", "ast", "cold", "toxicn"],
+    "stratified_binary_sources": ["ast"],
+    "balanced_category_sources": ["fbs", "chinese_offensive"]
+  },
+  "lab_full": {
+    "description": "Larger run for lab GPUs after the pipeline is stable.",
+    "random_seed": 42,
+    "max_text_chars": 512,
+    "splits": {
+      "train": {
+        "spam_message": 64000,
+        "ast": 11200,
+        "fbs": 9850,
+        "cold": 25726,
+        "toxicn": 9000,
+        "chinese_offensive": 40000
+      },
+      "dev": {
+        "spam_message": 8000,
+        "ast": 2400,
+        "fbs": 2100,
+        "cold": 6431,
+        "toxicn": 1500,
+        "chinese_offensive": 5000
+      },
+      "test": {
+        "spam_message": 8000,
+        "ast": 2400,
+        "fbs": 2100,
+        "cold": 5323,
+        "toxicn": 1500,
+        "chinese_offensive": 5000
+      }
+    },
+    "balanced_binary_sources": ["spam_message", "ast", "cold", "toxicn"],
+    "stratified_binary_sources": ["ast"],
+    "balanced_category_sources": ["fbs", "chinese_offensive"]
+  }
+}

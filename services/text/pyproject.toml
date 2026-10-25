@@ -1,0 +1,30 @@
+[project]
+name = "risk-text-detection-system"
+version = "0.1.0"
+description = "Chinese risk text detection with spam, toxicity, and camouflage robustness tasks."
+requires-python = ">=3.10"
+dependencies = [
+  "pandas>=2.0",
+  "scikit-learn>=1.3",
+  "torch>=2.0",
+  "transformers>=4.40",
+  "pypinyin>=0.50",
+  "opencc-python-reimplemented>=0.1.7",
+  "fastapi>=0.110",
+  "uvicorn>=0.27",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.scripts]
+risk-text-build-data = "risk_text_detection.data.build_unified:main"
+risk-text-train = "risk_text_detection.training.train:main"
+risk-text-predict = "risk_text_detection.inference.predictor:main"
+risk-text-api = "risk_text_detection.api.app:main"
+risk-text-eval-report = "risk_text_detection.evaluation.report_eval:main"

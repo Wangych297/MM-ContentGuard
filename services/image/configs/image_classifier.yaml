@@ -1,0 +1,84 @@
+﻿project:
+  name: risk-image-detection-system
+  seed: 42
+
+data:
+  simas_root: datasets/simas
+  pass_safe_root: datasets/safe_extra/pass_1500/images
+  manifest_path: data/processed/image_manifest.jsonl
+  split_dir: data/processed/splits
+  train_file: data/processed/splits/image_train.jsonl
+  val_file: data/processed/splits/image_val.jsonl
+  test_file: data/processed/splits/image_test.jsonl
+  val_ratio: 0.15
+  test_ratio: 0.15
+  allowed_extensions: [".jpg", ".jpeg", ".png", ".webp", ".bmp"]
+
+model:
+  backend: timm
+  backbone_name: vit_small_patch14_dinov2.lvd142m
+  pretrained: true
+  image_size: 224
+  dropout: 0.2
+
+train:
+  output_dir: checkpoints/image_model
+  epochs: 25
+  batch_size: 16
+  num_workers: 4
+  freeze_backbone_epochs: 1
+  lr_head: 0.0003
+  lr_backbone: 0.00001
+  weight_decay: 0.05
+  use_amp: true
+  weighted_sampler: true
+  class_weight_loss: true
+  early_stop_patience: 7
+  log_every: 20
+
+inference:
+  checkpoint_path: checkpoints/image_model/best.pt
+  model_risk_threshold: 0.65
+  suspicious_model_threshold: 0.45
+  text_risk_threshold: 0.7
+  text_suspicious_threshold: 0.4
+
+ocr:
+  enabled: true
+  engine: easyocr
+  languages: chi_sim+eng
+
+text_api:
+  enabled: true
+  url: http://127.0.0.1:8000/text/check
+  timeout_seconds: 8
+
+semantic_model:
+  enabled: false
+  config: configs/semantic_meme_focal_binary.yaml
+  checkpoint_path: checkpoints/semantic_model_focal_binary/best.pt
+  run_when_stage1_safe: true
+  use_descriptions: true
+
+rules:
+  enabled: true
+  qrcode_enabled: true
+  sensitive_words:
+    - gambling
+    - casino
+    - betting
+    - loan
+    - payday
+    - whatsapp
+    - telegram
+    - wechat
+    - qq
+    - escort
+    - porn
+    - drug
+    - pills
+    - gun
+    - weapon
+
+
+

@@ -1,0 +1,12 @@
+﻿file,expected,final_label,risk_level,risk_category,route,reasons,image_label,image_risk_level,image_conf,text_level,text_category,ocr_text,semantic_enabled,semantic_level,semantic_type,semantic_harm_prob,elapsed_seconds
+01_PASS_safe_final_safe_semantic_safe.jpg,safe,safe_for_semantic_check,normal,safe,send_to_semantic_model,,safe,normal,,,,,True,normal,safe,,43.1
+02_SIMAS_alcohol_final_risk_stage1_regulated_goods.jpg,regulated_goods,violation,risk,regulated_goods,blocked_by_image_pipeline,image_model:regulated_goods,regulated_goods,risk,,normal,safe,S《04'4 M UIIII,False,,,,0.84
+03_SIMAS_firearms_final_risk_stage1_weapon.jpg,weapon,violation,risk,weapon,blocked_by_image_pipeline,image_model:weapon,weapon,risk,,,,,False,,,,1.02
+04_ToxiCN_meme_1_final_risk_stage1_sexual.jpg,sexual,violation,risk,sexual,blocked_by_image_pipeline,image_model:sexual,sexual,risk,,normal,safe,"社会: 现在的年轻人不关心感情,他们 只想着杏爰 我真正需要的:",False,,,,1.63
+05_ToxiCN_meme_10003_final_safe_semantic_safe.jpg,risk,spam_ad,risk,spam_general,blocked_by_image_pipeline,text:spam_general,safe,normal,,risk,spam_general,不听不听  王八念经,False,,,,0.63
+06_ToxiCN_10144_targeted_final_safe_semantic_safe.jpg,targeted_offense,semantic_violation,risk,targeted_offense,blocked_by_semantic_model,semantic_model:targeted_offense,safe,normal,,normal,safe,"我不单指美帝,我指的是在座的各位 都是辣鸡",True,risk,targeted_offense,,5.01
+07_ToxiCN_10768_general_final_risk_stage1_violence.jpg,general_offense/toxicity_abuse,violation,risk,toxicity_abuse,blocked_by_image_pipeline,image_model:violence|text:toxicity_abuse,violence,risk,,risk,toxicity_abuse,要说傻逼 谁能比过你,False,,,,1.08
+08_ToxiCN_11273_general_final_risk_stage2_general_offense.jpg,general_offense,semantic_violation,risk,general_offense,blocked_by_semantic_model,semantic_model:general_offense,safe,normal,,normal,safe,你这样会被diss的我跟你讲,True,risk,general_offense,,3.71
+09_ToxiCN_79_sexual_final_safe_stage2_harmful_below_threshold.jpg,sexual,semantic_violation,risk,sexual,blocked_by_semantic_model,semantic_model:sexual,violence,suspicious,,normal,safe,你今天忘 记手冲了 闭嘴 我戒了,True,risk,sexual,,7.41
+10_ToxiCN_13840_general_final_risk_stage2_general_offense.jpg,general_offense,violation,risk,hate_bias,blocked_by_image_pipeline,text:hate_bias,safe,normal,,risk,hate_bias,像这介臭傻遏,False,,,,0.96
+11_ToxiCN_10525_general_final_safe_semantic_safe.jpg,general_offense,violation,risk,toxicity_abuse,blocked_by_image_pipeline,text:toxicity_abuse,safe,normal,,risk,toxicity_abuse,小样! -jue踢飞你!,False,,,,1.37

@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+pytest-cache-files-*/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Data and generated artifacts
+data/raw/
+data/interim/
+data/processed/
+data/manifests/
+runs/
+reports/
+
+# Model checkpoints and large binary artifacts
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.pkl
+*.npy
+*.npz
+
+# Logs and local outputs
+*.log
+*.lock
+outputs/
+tmp/
+temp/
+
+# IDE and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Required lightweight phonetic/glyph assets for inference
+!data/raw/
+!data/raw/ast/
+!data/raw/ast/**

@@ -1,0 +1,20 @@
+﻿Risk image full package contents
+Generated: 2026-06-07 14:41:53 +08:00
+Package path: C:\Users\86155\Desktop\大数据\risk_image_full_package_for_teammate_20260607
+
+Project source/config/scripts             2.1 MB     70 files  
+Final stage-1 DINOv3 checkpoint       3,469.0 MB      1 files  checkpoints\image_model_dinov3_large\best.pt
+Final semantic checkpoint             1,591.3 MB      1 files  checkpoints\semantic_model_focal_binary\best.pt
+DINOv3 original backbone              1,156.2 MB      1 files  .cache\manual_weights\dinov3_large\model.safetensors
+ChineseCLIP local HF cache            1,550.4 MB      8 files  .cache\huggingface\hub\models--OFA-Sys--chinese-clip-vit-large-patch14
+EasyOCR local model cache               100.2 MB      2 files  .EasyOCR\model
+SIMAS dataset                         1,678.1 MB   5000 files  datasets\simas
+PASS 1500 safe dataset                  138.3 MB   1501 files  datasets\safe_extra\pass_1500
+ToxiCN_MM dataset                     2,857.3 MB  12014 files  datasets\ToxiCN_MM
+Processed manifests/splits                9.8 MB      8 files  data\processed
+Demo samples and API outputs              2.9 MB     30 files  demo_samples
+
+Total files: 18635
+Total size: 12,553.6 MB (12.26 GB)
+
+Excluded from this package: .git, old checkpoint directories, last.pt, train logs, pid files, Python cache, virtualenvs, ToxiCN downloaded zip/bin cache, PASS download logs/pids/url dump.

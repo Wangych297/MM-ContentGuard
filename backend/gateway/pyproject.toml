@@ -1,0 +1,15 @@
+[project]
+name = "multimodal-risk-chat-gateway"
+version = "0.1.0"
+description = "Unified review gateway for text, image, and video chat messages."
+requires-python = ">=3.10"
+dependencies = [
+  "fastapi",
+  "uvicorn",
+  "httpx",
+  "python-multipart",
+  "pydantic",
+]
+
+[tool.setuptools.packages.find]
+include = ["app", "app.*"]

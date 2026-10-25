@@ -1,0 +1,12 @@
+﻿pipeline:
+  - image_model
+  - semantic_model
+
+image_model:
+  config: configs/image_classifier_dinov3_large.yaml
+
+semantic_model:
+  enabled: false
+  config: configs/semantic_meme_focal_binary.yaml
+  checkpoint_path: checkpoints/semantic_model_focal_binary/best.pt
+

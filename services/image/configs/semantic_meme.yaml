@@ -1,0 +1,48 @@
+﻿project:
+  seed: 42
+
+data:
+  source_root: datasets/ToxiCN_MM
+  image_dir: datasets/ToxiCN_MM/data/meme
+  train_json: datasets/ToxiCN_MM/data/train_data_discription_2.0.json
+  test_json: datasets/ToxiCN_MM/data/test_data_discription_2.0.json
+  output_dir: data/processed/semantic_meme
+  train_file: data/processed/semantic_meme/train.jsonl
+  val_file: data/processed/semantic_meme/val.jsonl
+  test_file: data/processed/semantic_meme/test.jsonl
+  val_ratio: 0.15
+  skip_missing_images: true
+
+model:
+  name: .cache/huggingface/hub/models--OFA-Sys--chinese-clip-vit-large-patch14/snapshots/660941af70c6ff89ce658a1735404c0f3e536c38
+  processor_name: .cache/huggingface/hub/models--OFA-Sys--chinese-clip-vit-large-patch14/snapshots/660941af70c6ff89ce658a1735404c0f3e536c38
+  max_length: 64
+  use_descriptions: true
+  description_dropout: 0.2
+  fusion_hidden_dim: 512
+  dropout: 0.2
+
+train:
+  output_dir: checkpoints/semantic_model
+  epochs: 15
+  batch_size: 4
+  num_workers: 0
+  lr_encoder: 0.00001
+  lr_head: 0.0003
+  weight_decay: 0.05
+  freeze_encoder_epochs: 2
+  early_stop_patience: 5
+  use_amp: true
+  weighted_sampler: true
+  class_weight_loss: true
+  log_every: 20
+  monitor_metric: type_macro_f1
+  type_loss_weight: 1.0
+  binary_loss_weight: 0.5
+  modal_loss_weight: 0.2
+
+inference:
+  checkpoint_path: checkpoints/semantic_model/best.pt
+  risk_threshold: 0.65
+
+

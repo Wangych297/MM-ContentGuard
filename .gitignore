@@ -1,0 +1,80 @@
+# Local secrets
+.env
+.env.local
+*.local
+*.local.*
+**/doc/brain/
+**/docs/brain/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+dist/
+build/
+*.egg-info/
+
+# Node
+node_modules/
+frontend/web/dist/
+frontend/web/.vite/
+*.tsbuildinfo
+
+# Runtime data
+storage/uploads/tmp/*
+storage/uploads/approved/*
+storage/uploads/rejected/*
+storage/db/*
+storage/models/*
+storage/datasets/*
+logs/*
+release_assets/
+
+!storage/uploads/tmp/.gitkeep
+!storage/uploads/approved/.gitkeep
+!storage/uploads/rejected/.gitkeep
+!storage/db/.gitkeep
+!storage/models/.gitkeep
+!storage/datasets/.gitkeep
+!logs/.gitkeep
+
+# Model assets, checkpoints, caches, and generated features
+services/*/checkpoints/
+services/*/runs/
+services/text/models/
+services/video/pretrained/
+services/video/outputs/
+services/video/features/
+services/image/.cache/
+services/image/.EasyOCR/
+services/image/datasets/
+services/image/features/
+services/**/outputs/api/
+
+# Large media
+*.zip
+*.tar
+*.tar.gz
+*.7z
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.mp4
+*.wav
+*.jpg
+*.jpeg
+*.png
+*.webp
+*.mov
+!services/image/demo_samples/**/*.jpg
+!services/image/demo_samples/**/*.jpeg
+!services/image/demo_samples/**/*.png
+
+# OS/editor noise
+.DS_Store
+Thumbs.db

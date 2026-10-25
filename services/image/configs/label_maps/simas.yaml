@@ -1,0 +1,16 @@
+directories:
+  alcohol: regulated_goods
+  alcohol_safe: safe
+  drugs: drug
+  drugs_safe: safe
+  firearms: weapon
+  firearms_safe: safe
+  gambling: gambling
+  gambling_safe: safe
+  sexual: sexual
+  sexual_safe: safe
+  tobacco: regulated_goods
+  tobacco_safe: safe
+  violence: violence
+  violence_safe: safe
+
