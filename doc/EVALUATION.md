@@ -70,11 +70,3 @@ Report Table 5-4 gives reference times for an approximately ten-second clip:
 The reduction from 65 to 7.4 seconds is approximately 88.6%. These are reported configuration timings; the report does not fully specify a standardized hardware, warm-up, cache, or repeated-trial protocol. They should not be interpreted as a universal speedup or latency guarantee.
 
 Source: [video experiment metrics](video_review/video_experiment_metrics.md) and project report Section 5.7.4.
-
-## Visual and Implementation Provenance
-
-The English overview ([editable SVG](assets/system-overview.svg)), evaluation panels, and latency chart are redrawn from the source code and the report. They do not represent new experiments. Presentation or demo captures preserve the original application language. Personal contribution tables are omitted from the report copy in this repository.
-
-Upstream code and reference methods remain attributed. See [PCLMM](../services/video/third_party/PCLMM/README.md) and the [project references](reference.md).
-
-Demo stills are taken from the supplied 58-second recording at approximately 3 s (text), 23 s (image), and 37.5 s (video attachment). They retain the original UI without fabricated predictions. The original recording is included as `assets/demo.mp4`.
