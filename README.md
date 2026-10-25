@@ -37,7 +37,7 @@ MM-ContentGuard brings specialist models into a single **review-before-send work
 
 **Routing and decisions.** The first image stage can stop on explicit risk; images that pass continue to the semantic stage. The online text service uses a tiered policy for hard risk, review, and safe outcomes. At the gateway, all included content must pass. Timeouts, unavailable services, and parsing failures keep a message from being sent without review.
 
-The gateway connects the MacBERT text, two-stage image, and four-modality video services through a shared review interface. The video branch adapts the [PCLMM framework](services/video/third_party/PCLMM/README.md).
+The gateway connects the MacBERT text, two-stage image, and four-modality video services through a shared review interface.
 
 ## See It in Action
 
