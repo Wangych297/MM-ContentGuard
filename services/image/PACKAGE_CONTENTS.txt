@@ -1,6 +1,6 @@
 ﻿Risk image full package contents
 Generated: 2026-06-07 14:41:53 +08:00
-Package path: C:\Users\86155\Desktop\大数据\risk_image_full_package_for_teammate_20260607
+Package path: services/image
 
 Project source/config/scripts             2.1 MB     70 files  
 Final stage-1 DINOv3 checkpoint       3,469.0 MB      1 files  checkpoints\image_model_dinov3_large\best.pt

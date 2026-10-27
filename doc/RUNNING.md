@@ -6,7 +6,7 @@
 
 The provided launch scripts target a Linux Bash environment and use tools such as `setsid`, `curl`, and FFmpeg. The documented model setup uses Python 3.10 and CUDA-enabled PyTorch. On Windows, use a compatible Linux/WSL environment and configure GPU access for that environment. A CPU configuration is available, but image and video inference can be substantially slower.
 
-Runtime assets are separate from source code. Pretrained caches and trained checkpoints are required to run the demo; retraining and dataset downloads are optional. The download scripts currently use the [original collaborative repository's v0.1.0 release](https://github.com/linsh63/multimodal-risk-chat/releases/tag/v0.1.0). This repository does not mirror those large assets.
+Runtime assets are separate from source code. Pretrained caches and trained checkpoints are required to run the demo; retraining and dataset downloads are optional. Runtime weights and pretrained caches are distributed as separate assets through the [project releases](https://github.com/Wangych297/MM-ContentGuard/releases).
 
 ## 1. Clone the Source
 
@@ -121,7 +121,7 @@ Send a text-only message:
 
 ```bash
 curl --noproxy '*' -X POST 'http://127.0.0.1:8080/api/conversations/demo/messages' \
-  -F 'text=Hello, shall we meet for dinner?' \
+  -F 'text=Hello, dinner is at six.' \
   -F 'client_message_id=local_safe_text'
 ```
 

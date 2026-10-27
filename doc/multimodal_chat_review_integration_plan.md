@@ -5,7 +5,7 @@
 把当前三个独立项目整合成一个完整演示系统：
 
 - `risk-text-detection-system/`：文字风险检测 API。
-- `risk_image_full_package_for_teammate_20260607/`：图片风险检测 API。
+- `risk_image_runtime_package/`：图片风险检测 API。
 - `video-pclmm-project/`：视频风险检测 API。
 
 最终效果是一个类似微信聊天的软件页面：用户输入文字、发送图片或发送视频时，系统先进行审核；只有审核通过的消息才真正进入聊天记录并展示给对方。若审核失败，消息不发出，并在本端提示失败原因。若底层项目能给出具体类别或原因，则把原因转成用户能理解的中文提示。
@@ -71,7 +71,7 @@ POST /text/batch-check
 项目路径：
 
 ```text
-risk_image_full_package_for_teammate_20260607/
+risk_image_runtime_package/
 ```
 
 启动后默认接口：
@@ -180,7 +180,7 @@ force_recompute: 可选
 推荐新建一个整合项目，采用 monorepo 形式：
 
 ```text
-multimodal-risk-chat/
+MM-ContentGuard/
   services/
     text/                 文字项目，可用子模块、复制或软链接接入
     image/                图片项目，可用子模块、复制或软链接接入
@@ -703,7 +703,7 @@ cd risk-text-detection-system
 PYTHONPATH=src RISK_TEXT_PORT=8000 python -m risk_text_detection.api.app
 
 # image
-cd risk_image_full_package_for_teammate_20260607
+cd risk_image_runtime_package
 PYTHONPATH=src uvicorn api.app:app --host 127.0.0.1 --port 8010
 
 # video
@@ -714,7 +714,7 @@ PORT=8020 scripts/run_api.sh
 再启动整合网关：
 
 ```bash
-cd multimodal-risk-chat/backend/gateway
+cd MM-ContentGuard/backend/gateway
 TEXT_API_URL=http://127.0.0.1:8000 \
 IMAGE_API_URL=http://127.0.0.1:8010 \
 VIDEO_API_URL=http://127.0.0.1:8020 \
@@ -724,7 +724,7 @@ uvicorn app.main:app --host 127.0.0.1 --port 8080
 最后启动前端：
 
 ```bash
-cd multimodal-risk-chat/frontend/web
+cd MM-ContentGuard/frontend/web
 npm install
 npm run dev
 ```
@@ -910,7 +910,7 @@ video: 120 秒
 
 ### 阶段 5：部署和文档
 
-目标：让小组成员能一键跑起来。
+目标：让使用者能一键跑起来。
 
 任务：
 
@@ -1022,4 +1022,4 @@ video: 120 秒
 - 图片风险能展示具体类别或规则原因。
 - 视频风险能展示通用审核失败原因。
 - gateway 统一调用三个模型服务，前端不直连模型服务。
-- README 能指导小组成员启动所有服务并完成演示。
+- README 能指导使用者启动所有服务并完成演示。

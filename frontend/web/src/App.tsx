@@ -485,7 +485,7 @@ function App() {
           <div className="avatar">群</div>
           <div className="conversation-meta">
             <div className="conversation-line">
-              <div className="conversation-title">项目小组演示群</div>
+              <div className="conversation-title">内容审核演示</div>
               <time>{formatShortTime(latestMessage?.created_at)}</time>
             </div>
             <div className="conversation-preview">
@@ -521,7 +521,7 @@ function App() {
       >
         <header className="chat-header">
           <div className="chat-title-block">
-            <h1>{activeView === "chat" ? "项目小组演示群" : "审核记录"}</h1>
+            <h1>{activeView === "chat" ? "内容审核演示" : "审核记录"}</h1>
             <p>
               {activeView === "chat"
                 ? `${messages.length} 条消息`

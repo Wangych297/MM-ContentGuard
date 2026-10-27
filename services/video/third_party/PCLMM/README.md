@@ -2,30 +2,30 @@
  The code implementation for the article "Towards Patronizing and Condescending Language in Chinese Videos: A Multimodal Dataset and Framework". The paper is **accepted by ICASSP 2025**, and the code is now released.
 
  The link for this paper is [https://ieeexplore.ieee.org/abstract/document/10890580](https://ieeexplore.ieee.org/abstract/document/10890580)
- 
- a) Data Collection. Refining annotation guidelines and gathering data from Bilibili. 
- 
- b) PCLMM dataset. A high-quality annotated dataset with PCL frame spans. 
- 
+
+ a) Data Collection. Refining annotation guidelines and gathering data from Bilibili.
+
+ b) PCLMM dataset. A high-quality annotated dataset with PCL frame spans.
+
  c) MultiPCL detector. A cross-attention mechanism.
 
- ![Our framework for this paper.](https://github.com/dut-laowang/PCLMM/blob/main/figure/P8.PNG)
+ ![Framework for this paper.](https://github.com/dut-laowang/PCLMM/blob/main/figure/P8.PNG)
 
 # Updation
 **February 9, 2025** – 🔥 The [Annotation_Link.csv](https://github.com/dut-laowang/PCLMM/blob/main/data/Annotation_Link.csv) containing the original video links has been updated.
 
-**April 3, 2025**– 🔥 We have released the complete process for calling the PCLMM code.
+**April 3, 2025**– 🔥 The complete process for calling the PCLMM code is available.
 
 # Dataset
 
 The PCLMM dataset can be downloaded at [https://zenodo.org/records/15128981](https://zenodo.org/records/15128981)
 
-The PCLMM dataset is sourced from Bilibili, the largest online community for young people in China. Our work aims to uncover microaggressions targeted at vulnerable groups, including discriminatory and patronizing language expressions (715 annotated videos). 
+The PCLMM dataset is sourced from Bilibili, the largest online community for young people in China. The PCLMM project aims to uncover microaggressions targeted at vulnerable groups, including discriminatory and patronizing language expressions (715 annotated videos).
 
 You can download `Annotation_Link.csv` for detailed annotation.
-You can use `Annotation_Subset.csv` `Annotation.csv` for the experiment. 
+You can use `Annotation_Subset.csv` `Annotation.csv` for the experiment.
 
-> **Note:**  
+> **Note:**
 > _The collection of this dataset follows Bilibili's Developer Agreement and Privacy Policy, with all data sourced from publicly available Bilibili video links. Please comply with Bilibili's relevant usage regulations when using this dataset to avoid any negative impact on the platform's services._
 
 
@@ -38,7 +38,7 @@ Download the PCLMM and place it at `/root/autodl-tmp/PCLMM`（**you can remove `
 
 1. Download the model weights [https://huggingface.co/google/vit-base-patch16-224-in21k](https://huggingface.co/google/vit-base-patch16-224-in21k) and place them at `/root/autodl-tmp/code/googlevit-base-patch16-224-in21k`.
 2. Run the following command to extract video features:
-   
+
    ```bash
    python extract_video_vit.py
    ```
@@ -111,7 +111,7 @@ To perform feature fusion, run:
    The final results are saved after running the script.
 
 # Cite
-If you plan to apply or extend our work, please cite the following paper.
+If you plan to apply or extend this work, please cite the following paper.
 ```bibtex
 @inproceedings{wang2025towards,
   title={Towards patronizing and condescending language in chinese videos: A multimodal dataset and detector},

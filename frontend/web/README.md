@@ -5,7 +5,7 @@
 ## 启动
 
 ```bash
-cd /path/to/multimodal-risk-chat/frontend/web
+cd /path/to/MM-ContentGuard/frontend/web
 npm install
 npm run dev
 ```

@@ -1,6 +1,6 @@
 # 运行资产说明
 
-本仓库只提交代码、配置、脚本和少量 demo 样例。模型权重、预训练缓存、Whisper 权重等大文件不进 Git，需要从 `multimodal-risk-chat` 的 GitHub Release 下载。
+本仓库只提交代码、配置、脚本和少量 demo 样例。模型权重、预训练缓存、Whisper 权重等大文件不进 Git，需要从 `MM-ContentGuard` 的 GitHub Release 下载。
 
 ## 1. 一键下载
 
@@ -29,7 +29,7 @@ VERSION=v0.1.0 bash scripts/download_video_assets.sh
 默认下载地址：
 
 ```text
-https://github.com/linsh63/multimodal-risk-chat/releases/download/<VERSION>
+https://github.com/Wangych297/MM-ContentGuard/releases/download/<VERSION>
 ```
 
 如果 Release 放在别的位置，可以覆盖：

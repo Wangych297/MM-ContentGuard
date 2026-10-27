@@ -1,5 +1,5 @@
 [project]
-name = "multimodal-risk-chat-gateway"
+name = "mm-contentguard-gateway"
 version = "0.1.0"
 description = "Unified review gateway for text, image, and video chat messages."
 requires-python = ">=3.10"

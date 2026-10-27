@@ -1,6 +1,6 @@
 # 视频 PCLMM 检测项目
 
-本项目是一个面向小组系统的视频审核 API 模块。它基于 PCLMM 中文视频多模态检测流程，接收一个 `.mp4` 视频，判断该视频是否为正常视频，并返回布尔值。
+本项目是一个面向审核系统的视频审核 API 模块。它基于 PCLMM 中文视频多模态检测流程，接收一个 `.mp4` 视频，判断该视频是否为正常视频，并返回布尔值。
 
 当前最重要的交付物是：
 
@@ -67,7 +67,7 @@ PCLMM_API_THRESHOLD=0.32
 - [视频审核 API 插件接入指南](doc/api_plugin_integration.md)
 - [底层模型 API 阶段规划](doc/model_api_plan.md)
 
-## 小组成员部署流程
+## 使用者部署流程
 
 clone 仓库后不需要重新训练，也不需要重新在数据集上提取特征；只需要准备 Python 环境、下载 Release 运行资产，然后启动 API。
 
@@ -75,7 +75,7 @@ clone 仓库后不需要重新训练，也不需要重新在数据集上提取�
 
 ```bash
 git clone <REPO_URL>
-cd multimodal-risk-chat/services/video
+cd MM-ContentGuard/services/video
 ```
 
 2. 按本文档的 [环境准备](#环境准备) 创建并激活 conda 环境。
@@ -98,7 +98,7 @@ whisper-large-v3.pt.sha256
 mkdir -p outputs/release_assets
 cd outputs/release_assets
 
-RELEASE_DOWNLOAD_BASE_URL=https://github.com/linsh63/multimodal-risk-chat/releases/download/v0.1.0
+RELEASE_DOWNLOAD_BASE_URL=https://github.com/Wangych297/MM-ContentGuard/releases/download/v0.1.0
 
 curl -L -O "$RELEASE_DOWNLOAD_BASE_URL/runtime-assets-v0.1.0.sha256"
 curl -L -O "$RELEASE_DOWNLOAD_BASE_URL/video-pclmm-runtime-core-v0.1.0.tar.gz"
@@ -354,7 +354,7 @@ runtime-assets-v0.1.0.sha256
 
 发布时可以在 GitHub 仓库页面创建一个 Release，例如 `runtime-v0.1.0`，然后上传 `outputs/release_assets/` 下的这些文件。
 
-小组成员 clone 仓库后，先把 Release assets 下载到 `outputs/release_assets/`，再执行：
+使用者 clone 仓库后，先把 Release assets 下载到 `outputs/release_assets/`，再执行：
 
 ```bash
 VERSION=v0.1.0 bash scripts/install_runtime_assets.sh

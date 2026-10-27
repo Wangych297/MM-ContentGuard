@@ -62,7 +62,7 @@ POST http://127.0.0.1:8000/text/check 通过
 来源：
 
 ```text
-risk_image_full_package_for_teammate_20260607/
+risk_image_runtime_package/
 ```
 
 迁入位置：
@@ -79,7 +79,7 @@ services/image/
 - `demo_samples/`
 - `data/`
 - `README.md`
-- `RUN_GUIDE_FOR_TEAMMATE.md`
+- `RUN_GUIDE.md`
 - `ARTIFACTS.md`
 - `pyproject.toml`
 - 第一层图片模型：`checkpoints/image_model_dinov3_large/best.pt`
@@ -299,7 +299,7 @@ bash scripts/check_services.sh 五项通过
 已验证环境：
 
 ```text
-/data4/songxinshuai/conda/envs/multimodal-risk-chat
+/data4/songxinshuai/conda/envs/MM-ContentGuard
 ```
 
 核心验证：
@@ -326,11 +326,11 @@ services/video  约 3.9G
 已补充：
 
 ```text
-doc/teammate_runbook.md
+doc/DEPLOYMENT.md
 requirements-unified.txt
 ```
 
-`doc/teammate_runbook.md` 覆盖：
+`doc/DEPLOYMENT.md` 覆盖：
 
 - clone 仓库。
 - 创建统一 conda 环境。

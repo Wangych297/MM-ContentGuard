@@ -1,6 +1,6 @@
-# 组员运行手册
+# 部署运行手册
 
-这份文档面向小组成员，目标是从 GitHub clone 后跑通完整演示系统：
+这份文档面向使用者，目标是从 GitHub clone 后跑通完整演示系统：
 
 ```text
 文字审核服务 + 图片审核服务 + 视频审核服务 + 统一 gateway + 微信式前端
@@ -9,15 +9,15 @@
 ## 1. Clone 仓库
 
 ```bash
-git clone git@github.com:<YOUR_ORG_OR_USER>/multimodal-risk-chat.git
-cd multimodal-risk-chat
+git clone git@github.com:Wangych297/MM-ContentGuard.git
+cd MM-ContentGuard
 ```
 
 如果使用 HTTPS：
 
 ```bash
-git clone https://github.com/<YOUR_ORG_OR_USER>/multimodal-risk-chat.git
-cd multimodal-risk-chat
+git clone https://github.com/Wangych297/MM-ContentGuard.git
+cd MM-ContentGuard
 ```
 
 ## 2. 准备 conda 环境
@@ -25,8 +25,8 @@ cd multimodal-risk-chat
 推荐 Python 3.10。GPU 机器上先安装 CUDA 版 PyTorch，再安装统一 pip 依赖。
 
 ```bash
-conda create -y -n multimodal-risk-chat python=3.10
-conda activate multimodal-risk-chat
+conda create -y -n mm-contentguard python=3.10
+conda activate mm-contentguard
 
 conda install -y -c pytorch -c nvidia \
   pytorch==2.2.2 torchvision==0.17.2 torchaudio==2.2.2 pytorch-cuda=12.1

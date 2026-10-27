@@ -10,7 +10,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 VIDEO_DIR="$ROOT_DIR/services/video"
 VERSION="${VERSION:-v0.1.0}"
-RELEASE_DOWNLOAD_BASE_URL="${RELEASE_DOWNLOAD_BASE_URL:-https://github.com/linsh63/multimodal-risk-chat/releases/download/$VERSION}"
+RELEASE_DOWNLOAD_BASE_URL="${RELEASE_DOWNLOAD_BASE_URL:-https://github.com/Wangych297/MM-ContentGuard/releases/download/$VERSION}"
 ASSET_DIR="${ASSET_DIR:-$VIDEO_DIR/outputs/release_assets}"
 
 assets=(

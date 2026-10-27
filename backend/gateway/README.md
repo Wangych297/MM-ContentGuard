@@ -13,8 +13,8 @@ GET  /api/conversations/{conversation_id}/messages
 ## 启动
 
 ```bash
-conda activate multimodal-risk-chat
-cd /path/to/multimodal-risk-chat
+conda activate mm-contentguard
+cd /path/to/MM-ContentGuard
 bash scripts/start_gateway.sh
 ```
 

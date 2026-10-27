@@ -9,7 +9,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 VERSION="${VERSION:-v0.1.0}"
-RELEASE_DOWNLOAD_BASE_URL="${RELEASE_DOWNLOAD_BASE_URL:-https://github.com/linsh63/multimodal-risk-chat/releases/download/$VERSION}"
+RELEASE_DOWNLOAD_BASE_URL="${RELEASE_DOWNLOAD_BASE_URL:-https://github.com/Wangych297/MM-ContentGuard/releases/download/$VERSION}"
 ASSET_DIR="${ASSET_DIR:-$ROOT_DIR/release_assets/image}"
 
 assets=(

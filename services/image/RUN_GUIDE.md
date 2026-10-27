@@ -1,11 +1,11 @@
 # 风险图片检测系统整包运行指南
 
-这个文件夹是一个干净的整包副本，已经包含图片项目代码和最终展示需要的模型资产。原始 Git 仓库没有被修改或删除。
+这个文件夹是一个干净的整包副本，已经包含图片项目代码和最终展示需要的模型资产。
 
 建议把整个文件夹复制到本机一个路径较短的位置，例如：
 
 ```text
-D:\risk_image_full_package_for_teammate_20260607
+D:\risk_image_runtime_package
 ```
 
 ## 包里已经包含
@@ -82,7 +82,7 @@ $env:VLM_API_KEY="填私下给你的key"
 建议 Python 3.10 或 3.11。进入本目录：
 
 ```powershell
-cd D:\risk_image_full_package_for_teammate_20260607
+cd D:\risk_image_runtime_package
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
@@ -118,7 +118,7 @@ python -m risk_text_detection.api.app
 回到这个整包目录：
 
 ```powershell
-cd D:\risk_image_full_package_for_teammate_20260607
+cd D:\risk_image_runtime_package
 .\.venv\Scripts\Activate.ps1
 $env:PYTHONPATH="src"
 
@@ -160,7 +160,7 @@ Invoke-RestMethod -Method Post -Uri http://127.0.0.1:8010/image/check -Body $bod
 如果需要从内置数据集重新生成第一层图片分类 split：
 
 ```powershell
-cd D:\risk_image_full_package_for_teammate_20260607
+cd D:\risk_image_runtime_package
 .\.venv\Scripts\Activate.ps1
 $env:PYTHONPATH="src"
 python -m data.build_manifest --config configs/image_classifier_dinov3_large.yaml
@@ -169,7 +169,7 @@ python -m data.build_manifest --config configs/image_classifier_dinov3_large.yam
 如果需要重新生成第二层 ToxiCN_MM split：
 
 ```powershell
-cd D:\risk_image_full_package_for_teammate_20260607
+cd D:\risk_image_runtime_package
 .\.venv\Scripts\Activate.ps1
 $env:PYTHONPATH="src"
 python -m semantic_model.prepare_data --config configs/semantic_meme_focal_binary.yaml

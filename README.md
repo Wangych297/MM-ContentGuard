@@ -100,7 +100,7 @@ bash scripts/start_all.sh
 bash scripts/check_services.sh
 ```
 
-Open **http://127.0.0.1:5173/**. Configure GPU devices and any VLM description endpoint in `.env` for your machine. The download scripts currently use the original collaborative repository's release assets.
+Open **http://127.0.0.1:5173/**. Configure GPU devices and any VLM description endpoint in `.env` for your machine.
 
 [Complete installation, service ports, API examples, training references, and shutdown instructions →](doc/RUNNING.md)
 
