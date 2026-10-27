@@ -10,8 +10,6 @@ A multimodal content moderation system for text, images, memes, and video in soc
 
 [Overview](#project-overview) · [Architecture](#how-it-works) · [Demo](#see-it-in-action) · [Results](#evaluation-results) · [Quick Start](#quick-start)
 
-Collaborative project by **Yicheng Wang** and **Sihan Lin**.
-
 </div>
 
 ## Project Overview
