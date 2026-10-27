@@ -1,6 +1,6 @@
-# 视频 PCLMM 检测项目
+# 四模态视频风险检测
 
-本项目是一个面向审核系统的视频审核 API 模块。它基于 PCLMM 中文视频多模态检测流程，接收一个 `.mp4` 视频，判断该视频是否为正常视频，并返回布尔值。
+本项目是一个面向审核系统的视频审核 API 模块。它采用融合画面、音频、语音文本和面部表情的四模态检测流程，接收一个 `.mp4` 视频，判断该视频是否为正常视频，并返回布尔值。
 
 当前最重要的交付物是：
 
@@ -16,7 +16,7 @@
 
 ## 项目概况
 
-本项目参考 PCLMM 论文和官方代码，完成中文视频 Patronizing and Condescending Language 检测流程的工程化整理。
+本模块通过交叉注意力融合四类特征，检测中文视频中的居高临下和贬损性语言，并提供视频审核 API。
 
 当前模型使用的模态包括：
 
@@ -30,7 +30,7 @@
 标签语义：
 
 ```text
-score = 模型判断视频属于异常 / PCL 的概率
+score = 模型判断视频属于风险类别的概率
 is_normal = score < threshold
 ```
 
@@ -299,7 +299,7 @@ src/data/             数据与特征读取
 src/evaluation/       评估脚本
 src/extraction/       兼容版特征抽取脚本
 scripts/              启动、准备和运行脚本
-third_party/PCLMM/    官方 PCLMM 参考代码
+third_party/PCLMM/    第三方参考实现
 doc/                  项目文档
 ```
 
@@ -409,9 +409,3 @@ ffmpeg -version
 - `openai-whisper==20240930` 当前需要 `--no-build-isolation`，因为构建步骤会导入 `pkg_resources`。
 - 项目依赖中不包含 `whisper==1.1.10`，避免和 OpenAI Whisper 的 `whisper.load_model` 冲突。
 - `Pillow` 固定为 `10.2.0`，因为 `facenet_pytorch==2.6.0` 要求 `Pillow>=10.2.0,<10.3.0`。
-
-## 官方参考
-
-- PCLMM GitHub: https://github.com/dut-laowang/PCLMM
-- PCLMM Dataset: https://zenodo.org/records/15128981
-- Paper: Towards Patronizing and Condescending Language in Chinese Videos: A Multimodal Dataset and Detector, ICASSP 2025

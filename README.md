@@ -20,7 +20,7 @@ MM-ContentGuard brings specialist models into a single **review-before-send work
 
 - **Robust text understanding:** three MacBERT experts combine contextual semantics with phonetic and glyph features to handle general risk, conversational boundaries, and rejection reasons.
 - **Two-stage image understanding:** visual classification, OCR/text checks, and rules address explicit risk; a ChineseCLIP semantic stage uses image-text evidence and auxiliary descriptions to assess memes and implicit meaning.
-- **Four-modality video analysis:** a PCLMM-based branch fuses frames, audio, speech transcripts, and facial expressions for patronizing and condescending language (PCL) detection.
+- **Four-modality video analysis:** fuses visual, audio, speech-text, and facial-expression features through cross-attention to detect patronizing and condescending language in videos.
 - **A working application:** modality adapters, consistent result schemas, review records, and fail-closed handling connect separately evaluated models to one messaging workflow.
 
 ## How It Works
@@ -31,7 +31,7 @@ MM-ContentGuard brings specialist models into a single **review-before-send work
 |---|---|---|
 | **Semantic text service** | Three MacBERT experts, phonetic/glyph fusion, tiered decision policy | General harmful text, implicit conversational attacks, and four user-facing reason categories |
 | **Image service** | DINOv3 + OCR + text checks + rules, followed by ChineseCLIP with description augmentation | Explicit visual risk, text embedded in images, and harmful image-text combinations |
-| **Video service** | ViT frames, MFCC audio, Whisper/BERT speech text, and FER-VT facial features with cross-attention fusion | PCL classification using four complementary modalities |
+| **Video service** | ViT frames, MFCC audio, Whisper/BERT speech text, and FER-VT facial features with cross-attention fusion | Video language-risk detection using four complementary modalities |
 
 **Routing and decisions.** The first image stage can stop on explicit risk; images that pass continue to the semantic stage. The online text service uses a tiered policy for hard risk, review, and safe outcomes. At the gateway, all included content must pass. Timeouts, unavailable services, and parsing failures keep a message from being sent without review.
 
@@ -70,7 +70,7 @@ The gateway connects the MacBERT text, two-stage image, and four-modality video 
 | **Text social-boundary evaluation** | 400 manually constructed sealed examples | **99.00% accuracy, macro F1, and risk recall** |
 | **DINOv3 explicit-image classifier** | 975 SIMAS + PASS test images; 7 classes | **97.23% accuracy**, 96.12% macro F1 |
 | **ChineseCLIP meme semantic classifier** | 2,400 ToxiCN_MM test examples | **83.41% binary accuracy**, 80.29% binary macro F1 |
-| **PCLMM-based video classifier** | 31 feature-complete test clips | **0.8846 ROC AUC**; at threshold 0.32, 87.10% accuracy and 71.30% macro F1 |
+| **Four-modality video classifier** | 31 feature-complete test clips | **0.8846 ROC AUC**; at threshold 0.32, 87.10% accuracy and 71.30% macro F1 |
 
 **Different tasks, separate evidence.** These results describe each component on its own dataset. They are not a pooled overall accuracy or an end-to-end gateway score. The sealed text set is constructed, and the video results use a small feature-complete subset with a threshold selected from test-set comparisons. [Protocols, trade-offs, and full results →](doc/EVALUATION.md)
 
@@ -113,7 +113,7 @@ Open **http://127.0.0.1:5173/**. Configure GPU devices and any VLM description e
 | [`backend/gateway/`](backend/gateway/) | FastAPI gateway, adapters, message state, and review records |
 | [`services/text/`](services/text/) | MacBERT experts, training, and text moderation API |
 | [`services/image/`](services/image/) | Explicit-image and semantic-meme models, OCR, and image API |
-| [`services/video/`](services/video/) | PCLMM-based fusion, feature extraction, and video API |
+| [`services/video/`](services/video/) | Four-modality fusion, feature extraction, and video API |
 | [`scripts/`](scripts/) | Runtime asset preparation and service lifecycle |
 | [`doc/`](doc/) | Project report, architecture, evaluation, and reproduction guides |
 
@@ -121,6 +121,6 @@ Open **http://127.0.0.1:5173/**. Configure GPU devices and any VLM description e
 
 ## Scope
 
-This is a research and engineering prototype for Chinese-language social-media content. Video evaluation addresses PCL rather than every category of harmful video. A moderation decision is a model/policy outcome; deployment thresholds and review practices need to match the intended use.
+This is a research and engineering prototype for Chinese-language social-media content. Video evaluation focuses on patronizing and condescending language; it does not cover every category of harmful video. A moderation decision is a model/policy outcome; deployment thresholds and review practices need to match the intended use.
 
-The project builds on MacBERT, DINOv3, ChineseCLIP, PCLMM, and their dependencies. Dataset and third-party asset use remains subject to their original licenses and terms.
+The project builds on MacBERT, DINOv3, ChineseCLIP, and other model dependencies. Dataset and third-party asset use remains subject to their original licenses and terms.

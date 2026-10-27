@@ -127,7 +127,7 @@ services/image/src/semantic_model/dataset.py
 来源：
 
 ```text
-video-pclmm-project/
+services/video/
 ```
 
 迁入位置：

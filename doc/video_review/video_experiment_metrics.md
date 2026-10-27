@@ -15,7 +15,7 @@ checkpoint:
   threshold = 0.32
 ```
 
-`score` 表示视频属于异常/PCL 类别的概率：
+`score` 表示视频属于风险类别的概率：
 
 ```text
 is_normal = score < threshold
@@ -51,7 +51,7 @@ test：31    label 0 = 26, label 1 = 5
 
 ## 3. 最终指标
 
-| 集合 | 阈值 | 样本数 | Accuracy | Macro F1 | PCL Precision | PCL Recall | PCL F1 | AUC | Confusion Matrix |
+| 集合 | 阈值 | 样本数 | Accuracy | Macro F1 | 风险类别 Precision | 风险类别 Recall | 风险类别 F1 | AUC | Confusion Matrix |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
 | train | 0.5 | 85 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | `[[66,0],[0,19]]` |
 | test | 0.5 | 31 | 0.8387 | 0.5974 | 0.5000 | 0.2000 | 0.2857 | 0.8846 | `[[25,1],[4,1]]` |

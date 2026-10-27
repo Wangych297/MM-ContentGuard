@@ -42,13 +42,13 @@ The first stage combines visual classification, OCR/text moderation, and rules. 
 
 Recorded API examples are available in the [image demo CSV](../services/image/demo_samples/api_flow_samples/latest_11_api_summary.csv) and [full JSON results](../services/image/demo_samples/api_flow_samples/latest_11_api_results.json). These are illustrative examples, not an additional benchmark.
 
-## Four-Modality Video PCL Detection
+## Four-Modality Video Language-Risk Detection
 
-The video service is based on the third-party PCLMM framework. PCL means **patronizing and condescending language**; this task does not establish broad video detection of every harmful-content category.
+The video service fuses visual, audio, speech-text, and facial-expression features through cross-attention to detect **patronizing and condescending language**. This evaluation does not establish broad video detection of every harmful-content category.
 
-The full annotation file contains 715 clips (571 train / 144 test). The reported experiment uses only the feature-complete `disabled` subset: **116 clips, 85 train / 31 test**. The test set contains 26 normal and five PCL clips.
+The full annotation file contains 715 clips (571 train / 144 test). The reported experiment uses only the feature-complete `disabled` subset: **116 clips, 85 train / 31 test**. The test set contains 26 normal and five risk-class clips.
 
-| Test threshold | Accuracy | Macro F1 | PCL precision | PCL recall | ROC AUC |
+| Test threshold | Accuracy | Macro F1 | Risk-class precision | Risk-class recall | ROC AUC |
 |---|---:|---:|---:|---:|---:|
 | 0.5 | 83.87% | 59.74% | 50.00% | 20.00% | 0.8846 |
 | 0.32 | 87.10% | 71.30% | 66.67% | 40.00% | 0.8846 |

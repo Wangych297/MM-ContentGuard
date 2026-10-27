@@ -100,7 +100,7 @@
 <path d="M1306 585V616" fill="none" stroke="#b5c2d0" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrow)"/>
 <rect x="1092" y="628" width="428" height="95" rx="12" fill="#f9f7fd" stroke="#e7e1f2" />
 <text x="1110" y="662" font-size="22" fill="#57427f" font-weight="650" text-anchor="start" >Cross-attention fusion</text>
-<text x="1110" y="691" font-size="17" fill="#8b7ca1" font-weight="400" text-anchor="start" >PCLMM-based probability + threshold</text>
+<text x="1110" y="691" font-size="17" fill="#8b7ca1" font-weight="400" text-anchor="start" >Risk probability + decision threshold</text>
 <rect x="1128" y="740" width="356" height="34" rx="17" fill="#f0ebfc" stroke="none" />
 <text x="1306.0" y="763" font-size="16" fill="#7654b3" font-weight="600" text-anchor="middle" >RESIDENT MODELS + PARALLEL I/O</text>
 <path d="M294 790V819" fill="none" stroke="#b5c2d0" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>

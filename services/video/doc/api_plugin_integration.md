@@ -26,7 +26,7 @@
 
 ## 2. 当前能力
 
-当前 API 使用 PCLMM 多模态视频检测流程：
+当前 API 使用四模态视频风险检测流程：
 
 - ViT 提取画面特征
 - MFCC 提取音频特征
@@ -38,7 +38,7 @@
 标签语义：
 
 ```text
-score = 模型认为视频属于异常 / PCL 的概率
+score = 模型认为视频属于风险类别的概率
 is_normal = score < threshold
 ```
 

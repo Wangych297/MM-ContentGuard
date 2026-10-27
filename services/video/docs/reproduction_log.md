@@ -2,12 +2,10 @@
 
 ## Initialization
 
-- Project initialized as an independent PCLMM video detection workspace.
+- Project initialized as an video language-risk detection workspace.
 - Git repository initialized.
 - Project directory skeleton created.
 - Official code added under `third_party/PCLMM/`.
-- Official PCLMM source: https://github.com/dut-laowang/PCLMM
-- Official PCLMM commit: `9b0745ca06de9de59ac12e8016d2c37a4d5ea7e4`
 - Private planning notes under `doc/brain/` are ignored by Git.
 
 ## Environment Notes

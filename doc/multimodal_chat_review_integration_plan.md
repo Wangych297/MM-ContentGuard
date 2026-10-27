@@ -6,7 +6,7 @@
 
 - `risk-text-detection-system/`：文字风险检测 API。
 - `risk_image_runtime_package/`：图片风险检测 API。
-- `video-pclmm-project/`：视频风险检测 API。
+- `services/video/`：视频风险检测 API。
 
 最终效果是一个类似微信聊天的软件页面：用户输入文字、发送图片或发送视频时，系统先进行审核；只有审核通过的消息才真正进入聊天记录并展示给对方。若审核失败，消息不发出，并在本端提示失败原因。若底层项目能给出具体类别或原因，则把原因转成用户能理解的中文提示。
 
@@ -125,7 +125,7 @@ POST /image/check
 项目路径：
 
 ```text
-video-pclmm-project/
+services/video/
 ```
 
 启动后默认接口：
@@ -170,7 +170,7 @@ force_recompute: 可选
 可用于前端解释的字段：
 
 - `is_normal`: 是否正常
-- `score`: 异常 / PCL 概率，只有 debug 或扩展返回时可见
+- `score`: 异常 / 风险类别 概率，只有 debug 或扩展返回时可见
 - `threshold`: 当前阈值
 
 限制：当前视频 API 主要输出布尔值和分数，不能像文字、图片一样给出细粒度类别。因此前端失败原因应使用较保守的表述，例如“视频内容未通过多模态审核”。
@@ -707,7 +707,7 @@ cd risk_image_runtime_package
 PYTHONPATH=src uvicorn api.app:app --host 127.0.0.1 --port 8010
 
 # video
-cd video-pclmm-project
+cd services/video
 PORT=8020 scripts/run_api.sh
 ```
 
