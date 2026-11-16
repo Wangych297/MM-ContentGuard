@@ -1,35 +1,47 @@
-# Technical Showcase: Evidence Details
+# Case Study Notes
 
-[Back to the project](../README.md#technical-highlights)
+[Back to the README](../README.md#case-studies)
 
-## Text: the role of the review expert
+## Text: obfuscated gambling promotion
 
-The regular test contains 7,800 messages: 4,650 safe and 3,150 risk. General-model hard-risk detection reaches 94.73% risk recall. Adding the social-boundary review expert recovers 60 risk messages and sends 181 safe messages into review. Combined risk recall is 96.63%; accuracy changes from 96.29% to 94.74%. Review is a non-safe outcome, not an automatic final risk label.
+The selected dataset record contains an altered message and its normalized counterpart, labeled `1` (spam). The displayed excerpt omits the contact identifier:
 
-The 400-example sealed set is manually constructed, evaluation-only, and covers conversational boundaries and character obfuscation. Combined risk recall is 99.00%. Its records provide aggregate metrics, so the showcase does not assign recorded predictions to invented example sentences. The results do not establish an isolated gain from phonetic or glyph features.
+> 揭秘彩票漏洞专业套%俐零风险每天纷红100倒500来打狗庄蒖㊣菂技术联 繋……
 
-Full tables: [text evaluation records](bert_text_review/text_evaluation_sets_and_results.md).
+Normalized excerpt:
 
-## Images: a real second-stage decision
+> 揭秘彩票漏洞专业套利零风险每天分红100到500来打狗庄真正的技术联系……
 
-![Original recorded meme](../services/image/demo_samples/api_flow_samples/08_ToxiCN_11273_general_final_risk_stage2_general_offense.jpg)
+The changes include `套%俐 → 套利` (profit), `纷红 → 分红` (returns), `倒 → 到` (to), `蒖㊣菂 → 真正的` (genuine), and `繋 → 系` in 联系 (contact). Their English explanation shows how symbols, similar sounds, and unusual character forms preserve the message while altering its surface form.
 
-Caption gloss: “I'm telling you, you'll get dissed for that.” The gloss aids English readers; the model received the original Chinese material. This example is labeled `general_offense` in the sample summary. Contextual interpretation may be ambiguous; the displayed outputs are the recorded model decisions.
+English: “Exploit a lottery loophole for risk-free profit. Earn 100–500 daily, beat the bookmaker—real techniques. Get in touch…” The phrase 打狗庄 is gambling slang for beating the bookmaker, rather than a literal reference to dogs. The risk lies in the promotion and promised profits, not in nonstandard spelling alone.
 
-The DINOv3 visual classifier returns `safe`, the OCR text-risk check returns `safe`, and no first-stage rule fires. The semantic stage returns `harmful`, `general_offense`, and harmful probability 0.8603323698043823. The final route is `blocked_by_semantic_model` with final label `semantic_violation`.
+The source is the project's AST dataset (`data/raw/ast/dataset.txt`); the report describes this dataset and character-variant handling. This is a labeled input example, not a new per-example inference result. No confidence or success rate is assigned to it.
 
-The semantic stage combines image/text representations with auxiliary descriptions. This trace establishes the routing and decision change. It is not a controlled comparison of modalities or a demonstration of causal explanation.
+[Project report](project_report.md).
 
-The original filename contains historical result wording. The outputs above follow the actual JSON fields, not the filename.
+## Image: floor-plan sexual innuendo
 
-Recorded evidence: [API summary](../services/image/demo_samples/api_flow_samples/latest_11_api_summary.csv) and [full API records](../services/image/demo_samples/api_flow_samples/latest_11_api_results.json), example 08 (eighth record). The showcase rounds the harmful probability to four decimal places. No input image, prediction, or threshold was changed.
+![Selected sample 45](assets/semantic-meme-45.jpg)
 
-## Video: architecture and measured results
+Caption: “大多数人第一次都找不到楼梯和通道” — “Most people cannot find the stairs and passageways on their first visit.”
 
-Video processing combines ViT frame embeddings, MFCC audio features, Whisper/BERT speech-text features, and FER-VT facial features using cross-attention. These are feature streams; the showcase does not present per-stream predictions or attention heatmaps.
+The floor-plan shape resembles female genital anatomy. The combination makes an apparently literal navigation caption into a sexual double entendre about a first sexual experience and locating anatomical openings.
 
-The experiment uses 31 feature-complete test clips (26 normal, five risk). At threshold 0.32, accuracy is 87.10%, macro F1 is 71.30%, and ROC AUC is 0.8846. The threshold was recommended from the test-set comparison, not validated on a separate untouched set. This is a small-subset evaluation of patronizing and condescending language.
+The original image is sample 45, also included in the project presentation assets. Report section 4.7.3 discusses the example and its sexual-content label. The project owner confirms the previous test outcome: image safe, text safe, combined harmful. This per-example outcome is based on that confirmation; no confidence value or new inference run is claimed. The dataset's modality annotation is separate from the model's predictions.
 
-The report records approximately 7.4 seconds to process an approximately ten-second clip using resident models and parallel feature extraction. Timing is configuration-specific, not a standardized throughput result. The supplied application video shows upload and preview; it does not provide a complete per-clip model trace.
+## Video: ridicule in a basketball sketch
 
-Details: [evaluation protocols](EVALUATION.md), [video metrics](video_review/video_experiment_metrics.md), and [video architecture](video_review/video_model_architecture.md).
+![Frame from the recorded video preview](assets/video-case.webp)
+
+The frame at approximately 42 seconds of the supplied application recording contains “哎那人一直抖个不停” — “Hey, that guy keeps shaking” — and “嘲笑” — “mocking laughter.” The attachment caption visible later in the recording identifies a character as a psychiatric patient.
+
+The harmful aspect is the mocking portrayal of the person's behavior, which turns a mental-health condition into a punchline. The diagnosis or movement itself is not harmful content. The English explanation interprets the visible sketch context; it is not a generated model rationale.
+
+At approximately 48 seconds, the application shows that the video did not pass multimodal review. The screenshot demonstrates the content and the recording demonstrates rejection. The service combines frame, audio, speech-text, and facial features, but the recording does not expose separate predictions for those streams.
+
+[Complete application recording](assets/demo.mp4). The example frames are extracted from this supplied recording; its original content is preserved.
+
+## Evaluation remains separate
+
+These case studies supplement the existing [evaluation section](../README.md#evaluation-results). They do not change its datasets, numbers, thresholds, or interpretation, and do not introduce another accuracy summary.

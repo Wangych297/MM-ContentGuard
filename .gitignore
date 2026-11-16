@@ -87,3 +87,5 @@ Thumbs.db
 
 # Local documentation preparation files
 /tmp/
+
+!doc/assets/semantic-meme-45.jpg

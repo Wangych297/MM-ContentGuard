@@ -8,7 +8,7 @@ A multimodal content moderation system for text, images, memes, and video in soc
 
 **Text · Image · Video** &nbsp; / &nbsp; **3 specialist services** &nbsp; / &nbsp; **1 unified moderation gateway**
 
-[Overview](#project-overview) · [Technical Highlights](#technical-highlights) · [Architecture](#how-it-works) · [Results](#evaluation-results) · [Application Demo](#see-it-in-action) · [Quick Start](#quick-start)
+[Overview](#project-overview) · [Case Studies](#case-studies) · [Architecture](#how-it-works) · [Results](#evaluation-results) · [Application Demo](#see-it-in-action) · [Quick Start](#quick-start)
 
 </div>
 
@@ -23,44 +23,44 @@ MM-ContentGuard brings specialist models into a single **review-before-send work
 - **Four-modality video analysis:** fuses visual, audio, speech-text, and facial-expression features through cross-attention to detect patronizing and condescending language in videos.
 - **A working application:** modality adapters, consistent result schemas, review records, and fail-closed handling connect separately evaluated models to one messaging workflow.
 
-## Technical Highlights
+## Case Studies
 
-**Three challenges, three concrete design choices.** The panels below connect each problem to its mechanism and recorded evidence.
+**What makes the content risky?** These examples show the input, its meaning in context, and how the system handles it. English translations accompany the original Chinese content.
 
-![Technical evidence: a text review expert recovers missed risks; an image-text semantic stage flags a meme after first-stage checks pass; four video feature streams feed cross-attention fusion](doc/assets/technical-evidence.png)
+![Three case studies: a gambling solicitation disguised with symbols and character variants; a floor-plan meme whose caption creates sexual innuendo; a video sketch mocking a person's shaking behavior](doc/assets/technical-evidence.png)
 
 <details>
-<summary><strong>Read the case studies and measured trade-offs</strong></summary>
+<summary><strong>Read the examples and their English explanations</strong></summary>
 
-### Text: recover risks that a general classifier misses
+### Text — obfuscated gambling solicitation
 
-Phonetic substitutions, character variants, and implicit conversational attacks motivate phonetic/glyph features and a separate social-boundary expert. The tiered policy adds a **review** outcome when the general model passes a message but the social expert flags it; a third expert supplies the reason category.
+**Original, contact omitted:** `揭秘彩票漏洞专业套%俐零风险每天纷红100倒500来打狗庄蒖㊣菂技术联 繋……`
 
-On the **7,800-message regular test**, this review layer recovers **60 additional risk messages**, raising risk recall from **94.73% to 96.63%**. It also routes **181 safe messages** into review: the gain comes with a measurable review burden. A separate, manually constructed **400-example sealed challenge set** covering conversational boundaries and obfuscation records **99.00% risk recall** for the combined policy. These are aggregate evaluations, not per-example demo predictions.
+**Translation:** “Exploit a lottery loophole for risk-free profit. Earn 100–500 daily, beat the bookmaker—real techniques. Get in touch…”
 
-### Images: add semantic review after explicit checks pass
+**What is disguised:** `套%俐 → 套利` (profit), `纷红 → 分红` (returns), `倒 → 到` (to), `蒖㊣菂 → 真正的` (genuine), and `繋 → 系` in `联系` (contact). The message combines a symbol insertion, sound-alike substitutions, and unusual character forms.
 
-The illustrated meme is an **existing recorded API example**, paired with the English gloss “I'm telling you, you'll get dissed for that.” Its literal caption can read as a warning; the pointing face and meme context add a mocking interpretation.
+**Why it is risky:** It advertises supposedly risk-free lottery profits and daily returns, uses slang for beating the bookmaker, and directs readers to make contact. The dataset contains both this altered text and its normalized counterpart, with a spam label. Phonetic/glyph features address the spelling changes; semantic experts assess the underlying solicitation. No new per-example prediction score is claimed.
 
-| Recorded processing step | Output for this example |
-|---|---|
-| DINOv3 visual classifier | `safe` |
-| OCR text-risk check | `safe` |
-| First-stage rules | No rule fired; continue to semantic review |
-| Description-augmented ChineseCLIP | `harmful` · `general_offense` · **0.8603 harmful probability** |
-| Final API decision | `semantic_violation` · blocked by semantic model |
+### Images — a double meaning created by image and caption
 
-The trace shows where the semantic stage changes the decision. It does not isolate the contribution of image, text, or descriptions; a modality ablation would be needed for that claim. Across the separate **2,400-example meme test**, the semantic classifier records **83.41% binary accuracy**.
+**Caption translation:** “Most people cannot find the stairs and passageways on their first visit.”
 
-### Video: fuse four complementary signals
+**Why it is risky:** The diagram resembles female genital anatomy. Combined with that shape, “first time” and difficulty finding an entrance become a sexual double entendre. The literal floor-plan text alone does not convey that meaning.
 
-**Frames → ViT · Audio → MFCC · Speech → Whisper/BERT · Faces → FER-VT.** Aligned features enter a cross-attention fusion model; a continuous risk score and decision threshold produce the video decision. The task targets patronizing and condescending language.
+**Selected example:** sample 45. The previously tested outcome, confirmed by the project owner, is **image: safe · text: safe · combined: harmful**. No per-example probability is assigned here.
 
-The recorded evaluation reaches **87.10% accuracy** and **0.8846 ROC AUC** on **31 feature-complete test clips**. Resident models and parallel feature extraction give a reference processing time of **7.4 seconds for an approximately 10-second clip**. These are model-evaluation and timing records; the application recording below demonstrates video upload and preview.
+### Video — ridicule conveyed through performance
+
+**Subtitle translation:** “Hey, that guy keeps shaking.” The frame also contains “mocking laughter,” while the sketch's caption identifies a character as a psychiatric patient.
+
+**Why it is risky:** The person's shaking is treated as a punchline. The caption, mocking delivery, and portrayal together frame the behavior as something to ridicule, reinforcing stigma toward people with mental-health conditions. Shaking or a mental-health condition alone is not harmful content.
+
+**Recorded outcome:** The application recording later shows that the video fails moderation and is not sent. The service combines visual, audio, speech-text, and facial features; this example explains the content rather than assigning a separate score to each modality.
 
 </details>
 
-[Inspect the example trace and evaluation details →](doc/SHOWCASE.md)
+[Case notes and original material →](doc/SHOWCASE.md)
 
 ## How It Works
 
