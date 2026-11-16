@@ -8,7 +8,7 @@ A multimodal content moderation system for text, images, memes, and video in soc
 
 **Text · Image · Video** &nbsp; / &nbsp; **3 specialist services** &nbsp; / &nbsp; **1 unified moderation gateway**
 
-[Overview](#project-overview) · [Architecture](#how-it-works) · [Demo](#see-it-in-action) · [Results](#evaluation-results) · [Quick Start](#quick-start)
+[Overview](#project-overview) · [Technical Highlights](#technical-highlights) · [Architecture](#how-it-works) · [Results](#evaluation-results) · [Application Demo](#see-it-in-action) · [Quick Start](#quick-start)
 
 </div>
 
@@ -23,6 +23,45 @@ MM-ContentGuard brings specialist models into a single **review-before-send work
 - **Four-modality video analysis:** fuses visual, audio, speech-text, and facial-expression features through cross-attention to detect patronizing and condescending language in videos.
 - **A working application:** modality adapters, consistent result schemas, review records, and fail-closed handling connect separately evaluated models to one messaging workflow.
 
+## Technical Highlights
+
+**Three challenges, three concrete design choices.** The panels below connect each problem to its mechanism and recorded evidence.
+
+![Technical evidence: a text review expert recovers missed risks; an image-text semantic stage flags a meme after first-stage checks pass; four video feature streams feed cross-attention fusion](doc/assets/technical-evidence.png)
+
+<details>
+<summary><strong>Read the case studies and measured trade-offs</strong></summary>
+
+### Text: recover risks that a general classifier misses
+
+Phonetic substitutions, character variants, and implicit conversational attacks motivate phonetic/glyph features and a separate social-boundary expert. The tiered policy adds a **review** outcome when the general model passes a message but the social expert flags it; a third expert supplies the reason category.
+
+On the **7,800-message regular test**, this review layer recovers **60 additional risk messages**, raising risk recall from **94.73% to 96.63%**. It also routes **181 safe messages** into review: the gain comes with a measurable review burden. A separate, manually constructed **400-example sealed challenge set** covering conversational boundaries and obfuscation records **99.00% risk recall** for the combined policy. These are aggregate evaluations, not per-example demo predictions.
+
+### Images: add semantic review after explicit checks pass
+
+The illustrated meme is an **existing recorded API example**, paired with the English gloss “I'm telling you, you'll get dissed for that.” Its literal caption can read as a warning; the pointing face and meme context add a mocking interpretation.
+
+| Recorded processing step | Output for this example |
+|---|---|
+| DINOv3 visual classifier | `safe` |
+| OCR text-risk check | `safe` |
+| First-stage rules | No rule fired; continue to semantic review |
+| Description-augmented ChineseCLIP | `harmful` · `general_offense` · **0.8603 harmful probability** |
+| Final API decision | `semantic_violation` · blocked by semantic model |
+
+The trace shows where the semantic stage changes the decision. It does not isolate the contribution of image, text, or descriptions; a modality ablation would be needed for that claim. Across the separate **2,400-example meme test**, the semantic classifier records **83.41% binary accuracy**.
+
+### Video: fuse four complementary signals
+
+**Frames → ViT · Audio → MFCC · Speech → Whisper/BERT · Faces → FER-VT.** Aligned features enter a cross-attention fusion model; a continuous risk score and decision threshold produce the video decision. The task targets patronizing and condescending language.
+
+The recorded evaluation reaches **87.10% accuracy** and **0.8846 ROC AUC** on **31 feature-complete test clips**. Resident models and parallel feature extraction give a reference processing time of **7.4 seconds for an approximately 10-second clip**. These are model-evaluation and timing records; the application recording below demonstrates video upload and preview.
+
+</details>
+
+[Inspect the example trace and evaluation details →](doc/SHOWCASE.md)
+
 ## How It Works
 
 ![System architecture: message intake, text/image/video review branches, and gateway aggregation leading to send or hold decisions](doc/assets/system-overview.svg)
@@ -36,29 +75,6 @@ MM-ContentGuard brings specialist models into a single **review-before-send work
 **Routing and decisions.** The first image stage can stop on explicit risk; images that pass continue to the semantic stage. The online text service uses a tiered policy for hard risk, review, and safe outcomes. At the gateway, all included content must pass. Timeouts, unavailable services, and parsing failures keep a message from being sent without review.
 
 The gateway connects the MacBERT text, two-stage image, and four-modality video services through a shared review interface.
-
-## See It in Action
-
-**Recorded application demo.** The recording shows ordinary messages being sent, risky text receiving rejection reasons, image attachments receiving review outcomes, and a video attachment being uploaded and previewed.
-
-[![Recorded chat interface showing accepted messages and rejected promotional text with review reasons](doc/assets/demo-text.webp)](doc/assets/demo.mp4)
-
-*Text moderation in the recorded application: accepted messages remain visible alongside rejected test inputs and their reasons. Click the image to open the complete 58-second demo.*
-
-<table>
-<tr>
-<td width="50%"><a href="doc/assets/demo-image.webp"><img src="doc/assets/demo-image.webp" alt="Recorded image-moderation view with approved images and an image rejected as regulated content" width="100%"></a></td>
-<td width="50%"><a href="doc/assets/demo-video.webp"><img src="doc/assets/demo-video.webp" alt="Recorded application showing an uploaded video attachment with its preview" width="100%"></a></td>
-</tr>
-<tr>
-<td><strong>Image review.</strong> Approved images and a rejected image are shown with their application feedback.</td>
-<td><strong>Video workflow.</strong> A video attachment is uploaded and opened in the in-app preview.</td>
-</tr>
-</table>
-
-[Watch or download the complete demo →](doc/assets/demo.mp4)
-
-*Frames extracted from the provided recording preserve the original Chinese interface and test inputs. Evaluation results are reported separately below.*
 
 ## Evaluation Results
 
@@ -80,6 +96,29 @@ The gateway connects the MacBERT text, two-stage image, and four-modality video 
 
 The report records an approximately **88.6% reduction in reference processing time**, from about 65 to 7.4 seconds for an approximately ten-second clip, after keeping models resident and extracting features in parallel. Feature caching supports repeated requests. These are configuration-specific reference timings, not a standardized throughput benchmark.
 
+
+## See It in Action
+
+**Application integration demo.** The recording shows ordinary messages being sent, risky text receiving rejection reasons, image attachments receiving review outcomes, and a video attachment being uploaded and previewed.
+
+[![Recorded chat interface showing accepted messages and rejected promotional text with review reasons](doc/assets/demo-text.webp)](doc/assets/demo.mp4)
+
+*Text moderation in the recorded application: accepted messages remain visible alongside rejected test inputs and their reasons. Click the image to open the complete 58-second demo.*
+
+<table>
+<tr>
+<td width="50%"><a href="doc/assets/demo-image.webp"><img src="doc/assets/demo-image.webp" alt="Recorded image-moderation view with approved images and an image rejected as regulated content" width="100%"></a></td>
+<td width="50%"><a href="doc/assets/demo-video.webp"><img src="doc/assets/demo-video.webp" alt="Recorded application showing an uploaded video attachment with its preview" width="100%"></a></td>
+</tr>
+<tr>
+<td><strong>Image review.</strong> Approved images and a rejected image are shown with their application feedback.</td>
+<td><strong>Video workflow.</strong> A video attachment is uploaded and opened in the in-app preview.</td>
+</tr>
+</table>
+
+[Watch or download the complete demo →](doc/assets/demo.mp4)
+
+*Frames extracted from the provided recording preserve the original Chinese interface and test inputs. Evaluation results are reported separately below.*
 
 ## Quick Start
 
